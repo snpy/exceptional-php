@@ -82,5 +82,5 @@ Exceptional::$action = "index";
 You can send exceptions through proxy server (no support for authentication).
 
 ```php
-Exceptional::proxy(host, port)
+Exceptional::proxy($host, $port);
 ```
