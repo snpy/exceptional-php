@@ -32,6 +32,9 @@ class Exceptional {
 
     static $blacklist = array();
 
+    static $proxy_host;
+    static $proxy_port;
+
     /*
      * Installs Exceptional as the default exception handler
      */
@@ -133,6 +136,11 @@ class Exceptional {
 
     static function clear() {
         self::$context = array();
+    }
+
+    static function proxy($host, $port) {
+        self::$proxy_host = $host;
+        self::$proxy_port = $port;
     }
 
 }

@@ -15,18 +15,27 @@ class ExceptionalRemote {
     /*
      * Sends a POST request
      */
-    static function call_remote($url, $post_data) {
+    static function call_remote($path, $post_data) {
+        $default_port = Exceptional::$use_ssl ? 443 : 80;
+
+        $host = Exceptional::$proxy_host ? Exceptional::$proxy_host : Exceptional::$host;
+        $port = Exceptional::$proxy_port ? Exceptional::$proxy_port : $default_port;
+
         if (Exceptional::$use_ssl === true) {
-            $s = fsockopen("ssl://".Exceptional::$host, 443, $errno, $errstr, 4);
+            $s = fsockopen("ssl://".$host, $port, $errno, $errstr, 4);
+            $protocol = "https";
         }
         else {
-            $s = fsockopen(Exceptional::$host, 80, $errno, $errstr, 2);
+            $s = fsockopen($host, $port, $errno, $errstr, 2);
+            $protocol = "http";
         }
 
         if (!$s) {
             echo "[Error $errno] $errstr\n";
             return false;
         }
+
+        $url = "$protocol://".Exceptional::$host."$path";
 
         $request  = "POST $url HTTP/1.1\r\n";
         $request .= "Host: ".Exceptional::$host."\r\n";

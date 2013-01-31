@@ -76,3 +76,11 @@ You can include the controller and action names in your exceptions for easier de
 Exceptional::$controller = "welcome";
 Exceptional::$action = "index";
 ```
+
+## Proxy server
+
+You can send exceptions through proxy server (no support for authentication).
+
+```php
+Exceptional::proxy(host, port)
+```
