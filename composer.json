@@ -1,0 +1,12 @@
+{
+	"name": "ankane/exceptional-php",
+	"type": "library",
+	"homepage": "https://github.com/ankane/exceptional-php",
+	"description": "A package for the Exceptional",
+	"support": {
+		"issues": "https://github.com/ankane/exceptional-php/issues?state=open"
+    },
+	"require": {
+		"php": ">=5.3.0"
+	}
+}
