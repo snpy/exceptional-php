@@ -1,12 +1,10 @@
 {
 	"name": "ankane/exceptional-php",
+	"description": "The power of Exceptional for PHP",
 	"type": "library",
 	"homepage": "https://github.com/ankane/exceptional-php",
-	"description": "A package for the Exceptional",
+	"license": "MIT",
 	"support": {
 		"issues": "https://github.com/ankane/exceptional-php/issues?state=open"
-    },
-	"require": {
-		"php": ">=5.3.0"
-	}
+  }
 }
