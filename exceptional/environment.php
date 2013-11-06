@@ -5,7 +5,7 @@ class ExceptionalEnvironment
 
     private static $environment;
 
-    static function to_array()
+    static function toArray()
     {
         if (!self::$environment) {
             $env = $_SERVER;
@@ -46,8 +46,8 @@ class ExceptionalEnvironment
                     "environment"                => "production",
                     "env"                        => $env,
                     "host"                       => php_uname("n"),
-                    "run_as_user"                => self::get_username(),
-                    "application_root_directory" => self::get_root_dir(),
+                    "run_as_user"                => self::getUsername(),
+                    "application_root_directory" => self::getRootDir(),
                     "language"                   => "php",
                     "language_version"           => phpversion(),
                     "framework"                  => null,
@@ -59,7 +59,7 @@ class ExceptionalEnvironment
         return self::$environment;
     }
 
-    static function get_username()
+    static function getUsername()
     {
         $vars = array("LOGNAME", "USER", "USERNAME", "APACHE_RUN_USER");
         foreach ($vars as $var) {
@@ -71,7 +71,7 @@ class ExceptionalEnvironment
         return "UNKNOWN";
     }
 
-    static function get_root_dir()
+    static function getRootDir()
     {
         if (isset($_SERVER["PWD"])) {
             return $_SERVER["PWD"];

@@ -5,19 +5,19 @@ class ExceptionalRemote
     /*
      * Does the actual sending of an exception
      */
-    static function send_exception($exception)
+    static public function sendException($exception)
     {
-        $uniqueness_hash = $exception->uniqueness_hash();
+        $uniqueness_hash = $exception->uniquenessHash();
         $hash_param      = ($uniqueness_hash) ? null : "&hash={$uniqueness_hash}";
         $url             = "/api/errors?api_key=" . Exceptional::$api_key . "&protocol_version=" . Exceptional::$protocol_version . $hash_param;
-        $compressed      = gzencode($exception->to_json(), 1);
-        self::call_remote($url, $compressed);
+        $compressed      = gzencode($exception->toJson(), 1);
+        self::callRemote($url, $compressed);
     }
 
     /*
      * Sends a POST request
      */
-    static function call_remote($path, $post_data)
+    static public function callRemote($path, $post_data)
     {
         $default_port = Exceptional::$use_ssl ? 443 : 80;
 

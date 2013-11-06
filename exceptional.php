@@ -54,11 +54,11 @@ class Exceptional
 
         // set exception handler & keep old exception handler around
         self::$previous_exception_handler = set_exception_handler(
-            array("Exceptional", "handle_exception")
+            array("Exceptional", "handleException")
         );
 
         self::$previous_error_handler = set_error_handler(
-            array("Exceptional", "handle_error")
+            array("Exceptional", "handleError")
         );
 
         register_shutdown_function(
@@ -74,11 +74,11 @@ class Exceptional
     static function shutdown()
     {
         if ($e = error_get_last()) {
-            self::handle_error($e["type"], $e["message"], $e["file"], $e["line"]);
+            self::handleError($e["type"], $e["message"], $e["file"], $e["line"]);
         }
     }
 
-    static function handle_error($errno, $errstr, $errfile, $errline)
+    static function handleError($errno, $errstr, $errfile, $errline)
     {
         if (!(error_reporting() & $errno)) {
             // this error code is not included in error_reporting
@@ -108,7 +108,7 @@ class Exceptional
                 $ex = new PhpError($errstr, $errno, $errfile, $errline);
         }
 
-        self::handle_exception($ex, false);
+        self::handleException($ex, false);
 
         if (self::$previous_error_handler) {
             call_user_func(self::$previous_error_handler, $errno, $errstr, $errfile, $errline);
@@ -120,13 +120,13 @@ class Exceptional
      * stack and calls the previous handler, if it exists. Ensures seamless
      * integration.
      */
-    static function handle_exception($exception, $call_previous = true)
+    static function handleException($exception, $call_previous = true)
     {
         self::$exceptions[] = $exception;
 
         if (Exceptional::$api_key != null) {
             $data = new ExceptionalData($exception);
-            ExceptionalRemote::send_exception($data);
+            ExceptionalRemote::sendException($data);
         }
 
         // if there's a previous exception handler, we call that as well

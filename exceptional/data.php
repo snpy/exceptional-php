@@ -18,7 +18,7 @@ class ExceptionalData
         }
 
         // environment data
-        $data = ExceptionalEnvironment::to_array();
+        $data = ExceptionalEnvironment::toArray();
 
         // exception data
         $message = $this->exception->getMessage();
@@ -56,7 +56,7 @@ class ExceptionalData
 
             $server = $_SERVER;
             $keys   = array("HTTPS", "HTTP_HOST", "REQUEST_URI", "REQUEST_METHOD", "REMOTE_ADDR");
-            $this->fill_keys($server, $keys);
+            $this->fillKeys($server, $keys);
 
             $protocol = $server["HTTPS"] && $server["HTTPS"] != "off" ? "https://" : "http://";
             $url      = $server["HTTP_HOST"] ? "$protocol$server[HTTP_HOST]$server[REQUEST_URI]" : "";
@@ -72,7 +72,7 @@ class ExceptionalData
             $params = array_merge($_GET, $_POST);
 
             foreach (Exceptional::$blacklist as $filter) {
-                $params = $this->filter_params($params, $filter);
+                $params = $this->filterParams($params, $filter);
             }
 
             if (!empty($params)) {
@@ -88,17 +88,17 @@ class ExceptionalData
         $this->data = $data;
     }
 
-    function uniqueness_hash()
+    function uniquenessHash()
     {
         return md5(implode("", $this->backtrace));
     }
 
-    function to_json()
+    function toJson()
     {
         return json_encode($this->data);
     }
 
-    function fill_keys(&$arr, $keys)
+    function fillKeys(&$arr, $keys)
     {
         foreach ($keys as $key) {
             if (!isset($arr[$key])) {
@@ -107,13 +107,13 @@ class ExceptionalData
         }
     }
 
-    function filter_params($params, $term)
+    function filterParams($params, $term)
     {
         foreach ($params as $key => $value) {
             if (preg_match("/$term/i", $key)) {
                 $params[$key] = '[FILTERED]';
             } elseif (is_array($value)) {
-                $params[$key] = $this->filter_params($value, $term);
+                $params[$key] = $this->filterParams($value, $term);
             }
         }
 
