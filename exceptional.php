@@ -6,13 +6,13 @@
  * Not DRY, but better than poluting the global namespace with a variable
  */
 
-require_once dirname(__FILE__)."/exceptional/data.php";
-require_once dirname(__FILE__)."/exceptional/environment.php";
-require_once dirname(__FILE__)."/exceptional/errors.php";
-require_once dirname(__FILE__)."/exceptional/remote.php";
+require_once dirname(__FILE__) . "/exceptional/data.php";
+require_once dirname(__FILE__) . "/exceptional/environment.php";
+require_once dirname(__FILE__) . "/exceptional/errors.php";
+require_once dirname(__FILE__) . "/exceptional/remote.php";
 
-class Exceptional {
-
+class Exceptional
+{
     static $exceptions;
 
     static $previous_exception_handler;
@@ -38,17 +38,18 @@ class Exceptional {
     /*
      * Installs Exceptional as the default exception handler
      */
-    static function setup($api_key, $use_ssl = false) {
+    static function setup($api_key, $use_ssl = false)
+    {
         if ($api_key == "") {
-          $api_key = null;
+            $api_key = null;
         }
 
         self::$api_key = $api_key;
         self::$use_ssl = $use_ssl;
 
         self::$exceptions = array();
-        self::$context = array();
-        self::$action = "";
+        self::$context    = array();
+        self::$action     = "";
         self::$controller = "";
 
         // set exception handler & keep old exception handler around
@@ -65,17 +66,20 @@ class Exceptional {
         );
     }
 
-    static function blacklist($filters = array()) {
+    static function blacklist($filters = array())
+    {
         self::$blacklist = array_merge(self::$blacklist, $filters);
     }
 
-    static function shutdown() {
+    static function shutdown()
+    {
         if ($e = error_get_last()) {
             self::handle_error($e["type"], $e["message"], $e["file"], $e["line"]);
         }
     }
 
-    static function handle_error($errno, $errstr, $errfile, $errline) {
+    static function handle_error($errno, $errstr, $errfile, $errline)
+    {
         if (!(error_reporting() & $errno)) {
             // this error code is not included in error_reporting
             return;
@@ -116,7 +120,8 @@ class Exceptional {
      * stack and calls the previous handler, if it exists. Ensures seamless
      * integration.
      */
-    static function handle_exception($exception, $call_previous = true) {
+    static function handle_exception($exception, $call_previous = true)
+    {
         self::$exceptions[] = $exception;
 
         if (Exceptional::$api_key != null) {
@@ -130,29 +135,31 @@ class Exceptional {
         }
     }
 
-    static function context($data = array()) {
+    static function context($data = array())
+    {
         self::$context = array_merge(self::$context, $data);
     }
 
-    static function clear() {
+    static function clear()
+    {
         self::$context = array();
     }
 
-    static function proxy($host, $port) {
+    static function proxy($host, $port)
+    {
         self::$proxy_host = $host;
         self::$proxy_port = $port;
     }
-
 }
 
-class Http404Error extends Exception {
-
-    public function __construct() {
+class Http404Error extends Exception
+{
+    public function __construct()
+    {
         if (!isset($_SERVER["HTTP_HOST"])) {
             echo "Run PHP on a server to use Http404Error.\n";
             exit(0);
         }
-        parent::__construct($_SERVER["REQUEST_URI"]." can't be found.");
+        parent::__construct($_SERVER["REQUEST_URI"] . " can't be found.");
     }
-
 }
