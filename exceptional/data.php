@@ -48,7 +48,7 @@ class ExceptionalData
             $session = isset($_SESSION) ? $_SESSION : array();
 
             // sanitize headers
-            $headers = getallheaders();
+            $headers = $this->getAllHeaders();
             if (isset($headers["Cookie"])) {
                 $sessionKey        = preg_quote(ini_get("session.name"), "/");
                 $headers["Cookie"] = preg_replace("/$sessionKey=\S+/", "$sessionKey=[FILTERED]", $headers["Cookie"]);
@@ -88,6 +88,26 @@ class ExceptionalData
         $this->data = $data;
     }
 
+    private function getAllHeaders()
+    {
+        if (function_exists("getallheaders")) {
+            return getallheaders();
+        }
+
+        $headers = array();
+        foreach ($_SERVER as $name => $value) {
+            if (substr($name, 0, 5) == "HTTP_") {
+                $headers[str_replace(
+                    " ",
+                    "-",
+                    ucwords(strtolower(str_replace('_', ' ', substr($name, 5))))
+                )] = $value;
+            }
+        }
+
+        return $headers;
+    }
+
     function uniquenessHash()
     {
         return md5(implode("", $this->backtrace));
@@ -118,20 +138,5 @@ class ExceptionalData
         }
 
         return $params;
-    }
-}
-
-// http://php.net/manual/en/function.getallheaders.php
-if (!function_exists("getallheaders")) {
-    function getallheaders()
-    {
-        $headers = array();
-        foreach ($_SERVER as $name => $value) {
-            if (substr($name, 0, 5) == "HTTP_") {
-                $headers[str_replace(" ", "-", ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
-            }
-        }
-
-        return $headers;
     }
 }
