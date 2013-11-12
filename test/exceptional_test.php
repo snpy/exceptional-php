@@ -77,7 +77,7 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
     function createExceptionData() {
         $notice = new PhpNotice("Test", 0, "", 0);
         $this->data = new ExceptionalData($notice);
-        $this->request = $this->data->data["request"];
+        $this->request = $this->data->getData()["request"];
     }
 
 }

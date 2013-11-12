@@ -3,6 +3,7 @@
 class ExceptionalData
 {
     private $exception;
+    private $data;
     private $backtrace = array();
 
     public function __construct(Exception $exception)
@@ -116,6 +117,11 @@ class ExceptionalData
     public function toJson()
     {
         return json_encode($this->data);
+    }
+
+    public function getData()
+    {
+        return $this->data;
     }
 
     private function fillKeys(&$arr, $keys)
