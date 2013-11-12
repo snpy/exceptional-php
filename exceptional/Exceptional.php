@@ -1,15 +1,6 @@
 <?php
 
-/*
- * Require files
- *
- * Not DRY, but better than polluting the global namespace with a variable
- */
-
-require_once dirname(__FILE__) . "/exceptional/data.php";
-require_once dirname(__FILE__) . "/exceptional/environment.php";
-require_once dirname(__FILE__) . "/exceptional/errors.php";
-require_once dirname(__FILE__) . "/exceptional/remote.php";
+namespace OBV\Exceptional;
 
 class Exceptional
 {
