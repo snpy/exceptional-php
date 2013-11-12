@@ -27,21 +27,21 @@ class ExceptionalRemote
      */
     private static function callRemote($path, $post_data)
     {
-        $default_port = Exceptional::getUseSsl() ? 443 : 80;
+        $defaultPort = Exceptional::getUseSsl() ? 443 : 80;
 
         $host = Exceptional::getProxyHost() ? : Exceptional::getHost();
-        $port = Exceptional::getProxyPort() ? : $default_port;
+        $port = Exceptional::getProxyPort() ? : $defaultPort;
 
         if (Exceptional::getUseSsl() === true) {
-            $s        = fsockopen("ssl://" . $host, $port, $errno, $errstr, 4);
+            $socket   = fsockopen("ssl://" . $host, $port, $errorNumber, $errorString, 4);
             $protocol = "https";
         } else {
-            $s        = fsockopen($host, $port, $errno, $errstr, 2);
+            $socket   = fsockopen($host, $port, $errorNumber, $errorString, 2);
             $protocol = "http";
         }
 
-        if (!$s) {
-            echo "[Error $errno] $errstr\n";
+        if (!$socket) {
+            echo "[Error $errorNumber] $errorString\n";
 
             return false;
         }
@@ -57,14 +57,14 @@ class ExceptionalRemote
         $request .= "Content-Length: " . strlen($post_data) . "\r\n\r\n";
         $request .= "$post_data\r\n";
 
-        fwrite($s, $request);
+        fwrite($socket, $request);
 
         $response = "";
-        while (!feof($s)) {
-            $response .= fgets($s);
+        while (!feof($socket)) {
+            $response .= fgets($socket);
         }
 
-        fclose($s);
+        fclose($socket);
 
         return true;
     }
