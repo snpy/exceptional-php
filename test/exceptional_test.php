@@ -1,4 +1,12 @@
 <?php
+
+namespace OBV\Test\Exceptional;
+
+use OBV\Exceptional\Exceptional;
+use OBV\Exceptional\Data;
+use OBV\Exceptional\PhpNotice;
+use PHPUnit_Framework_TestCase;
+
 /*
  * To run all tests, use:
  *
@@ -6,11 +14,6 @@
  */
 
 require "PHPUnit/Autoload.php";
-
-require dirname(__FILE__) . "/../exceptional.php";
-
-// report all errors
-error_reporting(-1);
 
 class ExceptionalTest extends PHPUnit_Framework_TestCase
 {
@@ -81,7 +84,7 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
     private function createExceptionData()
     {
         $notice        = new PhpNotice("Test", 0, "", 0);
-        $this->data    = new ExceptionalData($notice);
+        $this->data    = new Data($notice);
         $this->request = $this->data->getData()["request"];
     }
 }
