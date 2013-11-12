@@ -16,8 +16,8 @@ class PhpError extends PhpException
      */
     public function __construct($errstr, $errno, $errfile, $errline)
     {
-        if (@substr($errstr, 0, 25) == "Call to undefined method ") {
-            $errstr = substr($errstr, 25) . " is undefined";
+        if (@substr($errstr, 0, 25) == 'Call to undefined method ') {
+            $errstr = substr($errstr, 25) . ' is undefined';
         }
         parent::__construct($errstr, $errno, $errfile, $errline);
     }
@@ -43,8 +43,8 @@ class PhpNotice extends PhpException
      */
     public function __construct($errstr, $errno, $errfile, $errline)
     {
-        if (@substr($errstr, 0, 20) == "Undefined variable: ") {
-            $errstr = "\$" . substr($errstr, 20) . " is undefined";
+        if (@substr($errstr, 0, 20) == 'Undefined variable: ') {
+            $errstr = '$' . substr($errstr, 20) . ' is undefined';
         }
         parent::__construct($errstr, $errno, $errfile, $errline);
     }

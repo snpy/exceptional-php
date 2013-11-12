@@ -11,11 +11,10 @@ class ExceptionalData
         $this->exception = $exception;
 
         $trace = $this->exception->getTrace();
-        foreach ($trace as $t) {
-            if (!isset($t["file"])) {
-                continue;
+        foreach ($trace as $info) {
+            if (isset($info['file'])) {
+                $this->backtrace[] = sprintf('%s:%s:in `%s`', $info['file'], $info['line'], $info['function']);
             }
-            $this->backtrace[] = "$t[file]:$t[line]:in `$t[function]`";
         }
 
         // environment data
@@ -23,51 +22,53 @@ class ExceptionalData
 
         // exception data
         $message = $this->exception->getMessage();
-        $now     = gmdate("c");
+        $now     = gmdate('c');
 
         // spoof 404 error
         $error_class = get_class($this->exception);
-        if ($error_class == "Http404Error") {
-            $error_class = "ActionController::UnknownAction";
+        if ($error_class == 'Http404Error') {
+            $error_class = 'ActionController::UnknownAction';
         }
 
-        $data["exception"] = array(
-            "exception_class" => $error_class,
-            "message"         => $message,
-            "backtrace"       => $this->backtrace,
-            "occurred_at"     => $now
+        $data['exception'] = array(
+            'exception_class' => $error_class,
+            'message'         => $message,
+            'backtrace'       => $this->backtrace,
+            'occurred_at'     => $now
         );
 
         // context
         $context = Exceptional::getContext();
         if (!empty($context)) {
-            $data["context"] = $context;
+            $data['context'] = $context;
         }
 
-        if (isset($_SERVER["HTTP_HOST"])) {
+        if (isset($_SERVER['HTTP_HOST'])) {
             // request data
             $session = isset($_SESSION) ? $_SESSION : array();
 
             // sanitize headers
             $headers = $this->getAllHeaders();
-            if (isset($headers["Cookie"])) {
-                $sessionKey        = preg_quote(ini_get("session.name"), "/");
-                $headers["Cookie"] = preg_replace("/$sessionKey=\S+/", "$sessionKey=[FILTERED]", $headers["Cookie"]);
+            if (isset($headers['Cookie'])) {
+                $sessionKey        = preg_quote(ini_get('session.name'), '/');
+                $searchFor         = '/' . $sessionKey . '=\S+/';
+                $replaceWith       = $sessionKey . '=[FILTERED]';
+                $headers['Cookie'] = preg_replace($searchFor, $replaceWith, $headers['Cookie']);
             }
 
             $server = $_SERVER;
-            $keys   = array("HTTPS", "HTTP_HOST", "REQUEST_URI", "REQUEST_METHOD", "REMOTE_ADDR");
+            $keys   = array('HTTPS', 'HTTP_HOST', 'REQUEST_URI', 'REQUEST_METHOD', 'REMOTE_ADDR');
             $this->fillKeys($server, $keys);
 
-            $protocol = $server["HTTPS"] && $server["HTTPS"] != "off" ? "https://" : "http://";
-            $url      = $server["HTTP_HOST"] ? "$protocol$server[HTTP_HOST]$server[REQUEST_URI]" : "";
+            $protocol = $server['HTTPS'] && $server['HTTPS'] != 'off' ? 'https://' : 'http://';
+            $url      = $server['HTTP_HOST'] ? ($protocol . $server['HTTP_HOST'] . $server['REQUEST_URI']) : '';
 
-            $data["request"] = array(
-                "url"            => $url,
-                "request_method" => strtolower($server["REQUEST_METHOD"]),
-                "remote_ip"      => $server["REMOTE_ADDR"],
-                "headers"        => $headers,
-                "session"        => $session
+            $data['request'] = array(
+                'url'            => $url,
+                'request_method' => strtolower($server['REQUEST_METHOD']),
+                'remote_ip'      => $server['REMOTE_ADDR'],
+                'headers'        => $headers,
+                'session'        => $session
             );
 
             $params = array_merge($_GET, $_POST);
@@ -77,30 +78,30 @@ class ExceptionalData
             }
 
             if (!empty($params)) {
-                $data["request"]["parameters"] = $params;
+                $data['request']['parameters'] = $params;
             }
         } else {
-            $data["request"] = array();
+            $data['request'] = array();
         }
 
-        $data["request"]["controller"] = Exceptional::getController();
-        $data["request"]["action"]     = Exceptional::getAction();
+        $data['request']['controller'] = Exceptional::getController();
+        $data['request']['action']     = Exceptional::getAction();
 
         $this->data = $data;
     }
 
     private function getAllHeaders()
     {
-        if (function_exists("getallheaders")) {
+        if (function_exists('getallheaders')) {
             return getallheaders();
         }
 
         $headers = array();
         foreach ($_SERVER as $name => $value) {
-            if (substr($name, 0, 5) == "HTTP_") {
+            if (substr($name, 0, 5) == 'HTTP_') {
                 $headers[str_replace(
-                    " ",
-                    "-",
+                    ' ',
+                    '-',
                     ucwords(strtolower(str_replace('_', ' ', substr($name, 5))))
                 )] = $value;
             }
@@ -111,7 +112,7 @@ class ExceptionalData
 
     public function uniquenessHash()
     {
-        return md5(implode("", $this->backtrace));
+        return md5(implode('', $this->backtrace));
     }
 
     public function toJson()
@@ -136,7 +137,7 @@ class ExceptionalData
     private function filterParams($params, $term)
     {
         foreach ($params as $key => $value) {
-            if (preg_match("/$term/i", $key)) {
+            if (preg_match('/' . $term. '/i', $key)) {
                 $params[$key] = '[FILTERED]';
             } elseif (is_array($value)) {
                 $params[$key] = $this->filterParams($value, $term);

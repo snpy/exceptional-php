@@ -57,33 +57,34 @@ class ExceptionalRemote
         $port = Exceptional::getProxyPort() ? : $defaultPort;
 
         if (Exceptional::getUseSsl() === true) {
-            $socket   = fsockopen("ssl://" . $host, $port, $errorNumber, $errorString, 4);
-            $protocol = "https";
+            $socket   = fsockopen('ssl://' . $host, $port, $errorNumber, $errorString, 4);
+            $protocol = 'https';
         } else {
             $socket   = fsockopen($host, $port, $errorNumber, $errorString, 2);
-            $protocol = "http";
+            $protocol = 'http';
         }
 
         if (!$socket) {
-            echo "[Error $errorNumber] $errorString\n";
+            printf('[Error %s] %s%s', $errorNumber, $errorString, PHP_EOL);
 
             return false;
         }
 
-        $url = "$protocol://" . Exceptional::getHost() . "$path";
+        $url = $protocol . '://' . Exceptional::getHost() . $path;
+        $eol = "\r\n";
 
-        $request = "POST $url HTTP/1.1\r\n";
-        $request .= "Host: " . Exceptional::getHost() . "\r\n";
-        $request .= "Accept: */*\r\n";
-        $request .= "User-Agent: " . Exceptional::getClientName() . " " . Exceptional::getVersion() . "\r\n";
-        $request .= "Content-Type: text/json\r\n";
-        $request .= "Connection: close\r\n";
-        $request .= "Content-Length: " . strlen($post_data) . "\r\n\r\n";
-        $request .= "$post_data\r\n";
+        $request = sprintf('POST %s HTTP/1.1', $url) . $eol;
+        $request .= 'Host: ' . Exceptional::getHost() . $eol;
+        $request .= 'Accept: */*' . $eol;
+        $request .= sprintf('User-Agent: %s %s', Exceptional::getClientName(), Exceptional::getVersion()) . $eol;
+        $request .= 'Content-Type: text/json' . $eol;
+        $request .= 'Connection: close' . $eol;
+        $request .= 'Content-Length: ' . strlen($post_data) . $eol . $eol;
+        $request .= $post_data . $eol;
 
         fwrite($socket, $request);
 
-        $response = "";
+        $response = '';
         while (!feof($socket)) {
             $response .= fgets($socket);
         }
