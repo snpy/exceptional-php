@@ -11,7 +11,7 @@ class ExceptionalRemote
         $hash_param      = ($uniqueness_hash) ? null : "&hash={$uniqueness_hash}";
         $url             = "/api/errors?api_key=" . Exceptional::getApiKey() . "&protocol_version=" . Exceptional::getProtocolVersion() . $hash_param;
         $compressed      = gzencode($exception->toJson(), 1);
-        self::callRemote($url, $compressed);
+        static::callRemote($url, $compressed);
     }
 
     /*

@@ -144,7 +144,7 @@ class Exceptional
     public static function shutdown()
     {
         if ($e = error_get_last()) {
-            self::handleError($e["type"], $e["message"], $e["file"], $e["line"]);
+            static::handleError($e["type"], $e["message"], $e["file"], $e["line"]);
         }
     }
 
@@ -178,7 +178,7 @@ class Exceptional
                 $ex = new PhpError($errstr, $errno, $errfile, $errline);
         }
 
-        self::handleException($ex, false);
+        static::handleException($ex, false);
 
         if (self::$previous_error_handler) {
             call_user_func(self::$previous_error_handler, $errno, $errstr, $errfile, $errline);
