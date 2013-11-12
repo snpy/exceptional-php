@@ -14,6 +14,7 @@ error_reporting(-1);
 
 class ExceptionalTest extends PHPUnit_Framework_TestCase
 {
+    private $data;
     private $request = array();
 
     protected function setUp()
