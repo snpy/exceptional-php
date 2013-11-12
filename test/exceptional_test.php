@@ -21,7 +21,7 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
         $_SERVER["HTTP_HOST"] = "localhost";
     }
 
-    function testGetParameters()
+    public function testGetParameters()
     {
         $_GET["a"] = "GET works";
 
@@ -30,7 +30,8 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->request["parameters"]["a"], "GET works");
     }
 
-    function testPostParameters() {
+    public function testPostParameters()
+    {
         $_POST["b"] = "POST works";
 
         $this->createExceptionData();
@@ -38,7 +39,8 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->request["parameters"]["b"], "POST works");
     }
 
-    function testBlacklist() {
+    public function testBlacklist()
+    {
         $_POST["password"] = "test123";
         $_POST["user"]["creditcardnumber"] = 1234;
         $_POST["zipcode"] = 55555;
@@ -51,7 +53,7 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->request["parameters"]["zipcode"], 55555);
     }
 
-    function testControllerAndAction()
+    public function testControllerAndAction()
     {
         Exceptional::setController("home");
         Exceptional::setAction("index");
@@ -62,7 +64,8 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->request["action"], "index");
     }
 
-    function testSessionFilter() {
+    public function testSessionFilter()
+    {
         $session_name = md5(rand());
         $session_id = md5(rand());
 
@@ -74,7 +77,8 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->request["headers"]["Cookie"], "$session_name=[FILTERED]");
     }
 
-    function createExceptionData() {
+    private function createExceptionData()
+    {
         $notice = new PhpNotice("Test", 0, "", 0);
         $this->data = new ExceptionalData($notice);
         $this->request = $this->data->getData()["request"];
