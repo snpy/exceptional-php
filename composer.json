@@ -1,10 +1,10 @@
 {
-    "name": "ankane/exceptional-php",
+    "name": "snpy/exceptional-php",
     "description": "The power of Exceptional for PHP",
     "type": "library",
-    "homepage": "https://github.com/ankane/exceptional-php",
+    "homepage": "https://github.com/snpy/exceptional-php",
     "license": "MIT",
     "support": {
-        "issues": "https://github.com/ankane/exceptional-php/issues?state=open"
+        "issues": "https://github.com/snpy/exceptional-php/issues?state=open"
     }
 }
