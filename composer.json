@@ -6,5 +6,8 @@
     "license":     "MIT",
     "support":     {
         "issues": "https://github.com/snpy/exceptional-php/issues?state=open"
+    },
+    "require":     {
+        "psr/log": "dev-master"
     }
 }
