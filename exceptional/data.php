@@ -15,7 +15,7 @@ class ExceptionalData
             if (!isset($t["file"])) {
                 continue;
             }
-            $this->backtrace[] = "$t[file]:$t[line]:in `$t[function]\'";
+            $this->backtrace[] = "$t[file]:$t[line]:in `$t[function]`";
         }
 
         // environment data
