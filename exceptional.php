@@ -3,7 +3,7 @@
 /*
  * Require files
  *
- * Not DRY, but better than poluting the global namespace with a variable
+ * Not DRY, but better than polluting the global namespace with a variable
  */
 
 require_once dirname(__FILE__) . "/exceptional/data.php";
