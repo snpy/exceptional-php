@@ -73,8 +73,8 @@ See the [Exceptional documentation](http://docs.getexceptional.com/extras/contex
 You can include the controller and action names in your exceptions for easier debugging.
 
 ```php
-Exceptional::$controller = "welcome";
-Exceptional::$action = "index";
+Exceptional::setController('welcome');
+Exceptional::setAction('index');
 ```
 
 ## Proxy server

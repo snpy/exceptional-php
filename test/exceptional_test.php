@@ -52,8 +52,8 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
 
     function testControllerAndAction()
     {
-        Exceptional::$controller = "home";
-        Exceptional::$action = "index";
+        Exceptional::setController("home");
+        Exceptional::setAction("index");
 
         $this->createExceptionData();
 

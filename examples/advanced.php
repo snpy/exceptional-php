@@ -21,8 +21,8 @@ Exceptional::setup("YOUR-API-KEY", true); // use ssl
 
 
 // add controller and action
-Exceptional::$controller = "welcome";
-Exceptional::$action = "index";
+Exceptional::setController('welcome');
+Exceptional::setAction('index');
 
 
 // add context

@@ -2,10 +2,10 @@
 
 class ExceptionalData
 {
-    protected $exception;
-    protected $backtrace = array();
+    private $exception;
+    private $backtrace = array();
 
-    function __construct(Exception $exception)
+    public function __construct(Exception $exception)
     {
         $this->exception = $exception;
 
@@ -38,7 +38,7 @@ class ExceptionalData
         );
 
         // context
-        $context = Exceptional::$context;
+        $context = Exceptional::getContext();
         if (!empty($context)) {
             $data["context"] = $context;
         }
@@ -71,7 +71,7 @@ class ExceptionalData
 
             $params = array_merge($_GET, $_POST);
 
-            foreach (Exceptional::$blacklist as $filter) {
+            foreach (Exceptional::getBlackList() as $filter) {
                 $params = $this->filterParams($params, $filter);
             }
 
@@ -82,8 +82,8 @@ class ExceptionalData
             $data["request"] = array();
         }
 
-        $data["request"]["controller"] = Exceptional::$controller;
-        $data["request"]["action"]     = Exceptional::$action;
+        $data["request"]["controller"] = Exceptional::getController();
+        $data["request"]["action"]     = Exceptional::getAction();
 
         $this->data = $data;
     }
@@ -108,17 +108,17 @@ class ExceptionalData
         return $headers;
     }
 
-    function uniquenessHash()
+    public function uniquenessHash()
     {
         return md5(implode("", $this->backtrace));
     }
 
-    function toJson()
+    public function toJson()
     {
         return json_encode($this->data);
     }
 
-    function fillKeys(&$arr, $keys)
+    private function fillKeys(&$arr, $keys)
     {
         foreach ($keys as $key) {
             if (!isset($arr[$key])) {
@@ -127,7 +127,7 @@ class ExceptionalData
         }
     }
 
-    function filterParams($params, $term)
+    private function filterParams($params, $term)
     {
         foreach ($params as $key => $value) {
             if (preg_match("/$term/i", $key)) {

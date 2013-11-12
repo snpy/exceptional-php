@@ -13,32 +13,32 @@ require_once dirname(__FILE__) . "/exceptional/remote.php";
 
 class Exceptional
 {
-    static $exceptions;
+    private static $exceptions;
 
-    static $previous_exception_handler;
-    static $previous_error_handler;
+    private static $previous_exception_handler;
+    private static $previous_error_handler;
 
-    static $api_key;
-    static $use_ssl;
+    private static $api_key;
+    private static $use_ssl;
 
-    static $host = "plugin.getexceptional.com";
-    static $client_name = "exceptional-php";
-    static $version = "1.5";
-    static $protocol_version = 6;
+    private static $host = "plugin.getexceptional.com";
+    private static $client_name = "exceptional-php";
+    private static $version = "1.5";
+    private static $protocol_version = 6;
 
-    static $controller;
-    static $action;
-    static $context;
+    private static $controller;
+    private static $action;
+    private static $context;
 
-    static $blacklist = array();
+    private static $blacklist = array();
 
-    static $proxy_host;
-    static $proxy_port;
+    private static $proxy_host;
+    private static $proxy_port;
 
     /*
      * Installs Exceptional as the default exception handler
      */
-    static function setup($api_key, $use_ssl = false)
+    public static function setup($api_key, $use_ssl = false)
     {
         if ($api_key == "") {
             $api_key = null;
@@ -66,19 +66,89 @@ class Exceptional
         );
     }
 
-    static function blacklist($filters = array())
+    public static function getApiKey()
+    {
+        return self::$api_key;
+    }
+
+    public static function getUseSsl()
+    {
+        return self::$use_ssl;
+    }
+
+    public static function getHost()
+    {
+        return self::$host;
+    }
+
+    public static function getClientName()
+    {
+        return self::$client_name;
+    }
+
+    public static function getVersion()
+    {
+        return self::$version;
+    }
+
+    public static function getProtocolVersion()
+    {
+        return self::$protocol_version;
+    }
+
+    public static function getController()
+    {
+        return self::$controller;
+    }
+
+    public static function setController($controller)
+    {
+        self::$controller = $controller;
+    }
+
+    public static function getAction()
+    {
+        return self::$action;
+    }
+
+    public static function setAction($action)
+    {
+        self::$action = $action;
+    }
+
+    public static function getContext()
+    {
+        return self::$context;
+    }
+
+    public static function getBlackList()
+    {
+        return self::$blacklist;
+    }
+
+    public static function getProxyHost()
+    {
+        return self::$proxy_host;
+    }
+
+    public static function getProxyPort()
+    {
+        return self::$proxy_port;
+    }
+
+    public static function blacklist($filters = array())
     {
         self::$blacklist = array_merge(self::$blacklist, $filters);
     }
 
-    static function shutdown()
+    public static function shutdown()
     {
         if ($e = error_get_last()) {
             self::handleError($e["type"], $e["message"], $e["file"], $e["line"]);
         }
     }
 
-    static function handleError($errno, $errstr, $errfile, $errline)
+    private static function handleError($errno, $errstr, $errfile, $errline)
     {
         if (!(error_reporting() & $errno)) {
             // this error code is not included in error_reporting
@@ -120,7 +190,7 @@ class Exceptional
      * stack and calls the previous handler, if it exists. Ensures seamless
      * integration.
      */
-    static function handleException($exception, $call_previous = true)
+    private static function handleException($exception, $call_previous = true)
     {
         self::$exceptions[] = $exception;
 
@@ -135,17 +205,17 @@ class Exceptional
         }
     }
 
-    static function context($data = array())
+    public static function context($data = array())
     {
         self::$context = array_merge(self::$context, $data);
     }
 
-    static function clear()
+    public static function clear()
     {
         self::$context = array();
     }
 
-    static function proxy($host, $port)
+    public static function proxy($host, $port)
     {
         self::$proxy_host = $host;
         self::$proxy_port = $port;

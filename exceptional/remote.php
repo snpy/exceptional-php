@@ -5,11 +5,11 @@ class ExceptionalRemote
     /*
      * Does the actual sending of an exception
      */
-    static public function sendException($exception)
+    public static function sendException($exception)
     {
         $uniqueness_hash = $exception->uniquenessHash();
         $hash_param      = ($uniqueness_hash) ? null : "&hash={$uniqueness_hash}";
-        $url             = "/api/errors?api_key=" . Exceptional::$api_key . "&protocol_version=" . Exceptional::$protocol_version . $hash_param;
+        $url             = "/api/errors?api_key=" . Exceptional::getApiKey() . "&protocol_version=" . Exceptional::getProtocolVersion() . $hash_param;
         $compressed      = gzencode($exception->toJson(), 1);
         self::callRemote($url, $compressed);
     }
@@ -17,14 +17,14 @@ class ExceptionalRemote
     /*
      * Sends a POST request
      */
-    static public function callRemote($path, $post_data)
+    private static function callRemote($path, $post_data)
     {
-        $default_port = Exceptional::$use_ssl ? 443 : 80;
+        $default_port = Exceptional::getUseSsl() ? 443 : 80;
 
-        $host = Exceptional::$proxy_host ? Exceptional::$proxy_host : Exceptional::$host;
-        $port = Exceptional::$proxy_port ? Exceptional::$proxy_port : $default_port;
+        $host = Exceptional::getProxyHost() ? : Exceptional::getHost();
+        $port = Exceptional::getProxyPort() ? : $default_port;
 
-        if (Exceptional::$use_ssl === true) {
+        if (Exceptional::getUseSsl() === true) {
             $s        = fsockopen("ssl://" . $host, $port, $errno, $errstr, 4);
             $protocol = "https";
         } else {
@@ -38,12 +38,12 @@ class ExceptionalRemote
             return false;
         }
 
-        $url = "$protocol://" . Exceptional::$host . "$path";
+        $url = "$protocol://" . Exceptional::getHost() . "$path";
 
         $request = "POST $url HTTP/1.1\r\n";
-        $request .= "Host: " . Exceptional::$host . "\r\n";
+        $request .= "Host: " . Exceptional::getHost() . "\r\n";
         $request .= "Accept: */*\r\n";
-        $request .= "User-Agent: " . Exceptional::$client_name . " " . Exceptional::$version . "\r\n";
+        $request .= "User-Agent: " . Exceptional::getClientName() . " " . Exceptional::getVersion() . "\r\n";
         $request .= "Content-Type: text/json\r\n";
         $request .= "Connection: close\r\n";
         $request .= "Content-Length: " . strlen($post_data) . "\r\n\r\n";
