@@ -1,6 +1,6 @@
 <?php
 
-namespace OBV\Exceptional;
+namespace OBV\Exceptional\Exception;
 
 use ErrorException;
 

@@ -2,6 +2,8 @@
 
 namespace OBV\Exceptional;
 
+use OBV\Exceptional\Exception as Error;
+
 class Exceptional
 {
     private static $exceptions;
@@ -149,24 +151,24 @@ class Exceptional
         switch ($errno) {
             case E_NOTICE:
             case E_USER_NOTICE:
-                $ex = new PhpNotice($errstr, $errno, $errfile, $errline);
+                $ex = new Error\PhpNotice($errstr, $errno, $errfile, $errline);
                 break;
 
             case E_WARNING:
             case E_USER_WARNING:
-                $ex = new PhpWarning($errstr, $errno, $errfile, $errline);
+                $ex = new Error\PhpWarning($errstr, $errno, $errfile, $errline);
                 break;
 
             case E_STRICT:
-                $ex = new PhpStrict($errstr, $errno, $errfile, $errline);
+                $ex = new Error\PhpStrict($errstr, $errno, $errfile, $errline);
                 break;
 
             case E_PARSE:
-                $ex = new PhpParse($errstr, $errno, $errfile, $errline);
+                $ex = new Error\PhpParse($errstr, $errno, $errfile, $errline);
                 break;
 
             default:
-                $ex = new PhpError($errstr, $errno, $errfile, $errline);
+                $ex = new Error\PhpError($errstr, $errno, $errfile, $errline);
         }
 
         static::handleException($ex, false);
@@ -186,8 +188,8 @@ class Exceptional
         self::$exceptions[] = $exception;
 
         if (Exceptional::$api_key != null) {
-            $data = new ExceptionalData($exception);
-            ExceptionalRemote::sendException($data);
+            $data = new Data($exception);
+            Remote::sendException($data);
         }
 
         // if there's a previous exception handler, we call that as well
