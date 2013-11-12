@@ -32,7 +32,7 @@ class Remote
     private static function postponeRemoteCall($url, $data)
     {
         $logFile = '/path/to/log/file';
-        $logRow  = static::encode($url, $compressed);
+        $logRow  = static::encode($url, $data);
         file_put_contents($logFile, $logRow, FILE_APPEND);
     }
 
