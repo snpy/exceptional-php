@@ -14,10 +14,11 @@ class ExceptionalRemote
 
     private static function preparePostData(ExceptionalData $exception)
     {
-        $uniqueness_hash = $exception->uniquenessHash();
-        $hash_param      = ($uniqueness_hash) ? null : "&hash={$uniqueness_hash}";
-        $url             = "/api/errors?api_key=" . Exceptional::getApiKey() . "&protocol_version=" . Exceptional::getProtocolVersion() . $hash_param;
-        $compressed      = gzencode($exception->toJson(), 1);
+        $hash       = $exception->uniquenessHash();
+        $hashParam  = $hash ? '' : ('&hash=' . $hash);
+        $url        = '/api/errors?api_key=%s&protocol_version=%s%s';
+        $url        = sprintf($url, Exceptional::getApiKey(), Exceptional::getProtocolVersion(), $hashParam);
+        $compressed = gzencode($exception->toJson(), 1);
 
         return array($url, $compressed);
     }
