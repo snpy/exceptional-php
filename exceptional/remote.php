@@ -49,7 +49,7 @@ class Remote
     /*
      * Sends a POST request
      */
-    private static function callRemote($path, $post_data)
+    private static function callRemote($path, $postData)
     {
         $defaultPort = Exceptional::getUseSsl() ? 443 : 80;
 
@@ -79,8 +79,8 @@ class Remote
         $request .= sprintf('User-Agent: %s %s', Exceptional::getClientName(), Exceptional::getVersion()) . $eol;
         $request .= 'Content-Type: text/json' . $eol;
         $request .= 'Connection: close' . $eol;
-        $request .= 'Content-Length: ' . strlen($post_data) . $eol . $eol;
-        $request .= $post_data . $eol;
+        $request .= 'Content-Length: ' . strlen($postData) . $eol . $eol;
+        $request .= $postData . $eol;
 
         fwrite($socket, $request);
 

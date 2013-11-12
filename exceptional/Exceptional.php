@@ -8,16 +8,16 @@ class Exceptional
 {
     private static $exceptions;
 
-    private static $previous_exception_handler;
-    private static $previous_error_handler;
+    private static $previousExceptionHandler;
+    private static $previousErrorHandler;
 
-    private static $api_key;
+    private static $apiKey;
     private static $use_ssl;
 
     private static $host = 'plugin.getexceptional.com';
-    private static $client_name = 'exceptional-php';
+    private static $clientName = 'exceptional-php';
     private static $version = '1.5';
-    private static $protocol_version = 6;
+    private static $protocolVersion = 6;
 
     private static $controller;
     private static $action;
@@ -25,20 +25,20 @@ class Exceptional
 
     private static $blacklist = array();
 
-    private static $proxy_host;
-    private static $proxy_port;
+    private static $proxyHost;
+    private static $proxyPort;
 
     /*
      * Installs Exceptional as the default exception handler
      */
-    public static function setup($api_key, $use_ssl = false)
+    public static function setup($apiKey, $useSsl = false)
     {
-        if ($api_key == '') {
-            $api_key = null;
+        if ($apiKey == '') {
+            $apiKey = null;
         }
 
-        self::$api_key = $api_key;
-        self::$use_ssl = $use_ssl;
+        self::$apiKey = $apiKey;
+        self::$use_ssl = $useSsl;
 
         self::$exceptions = array();
         self::$context    = array();
@@ -46,11 +46,11 @@ class Exceptional
         self::$controller = '';
 
         // set exception handler & keep old exception handler around
-        self::$previous_exception_handler = set_exception_handler(
+        self::$previousExceptionHandler = set_exception_handler(
             array('Exceptional', 'handleException')
         );
 
-        self::$previous_error_handler = set_error_handler(
+        self::$previousErrorHandler = set_error_handler(
             array('Exceptional', 'handleError')
         );
 
@@ -61,7 +61,7 @@ class Exceptional
 
     public static function getApiKey()
     {
-        return self::$api_key;
+        return self::$apiKey;
     }
 
     public static function getUseSsl()
@@ -76,7 +76,7 @@ class Exceptional
 
     public static function getClientName()
     {
-        return self::$client_name;
+        return self::$clientName;
     }
 
     public static function getVersion()
@@ -86,7 +86,7 @@ class Exceptional
 
     public static function getProtocolVersion()
     {
-        return self::$protocol_version;
+        return self::$protocolVersion;
     }
 
     public static function getController()
@@ -121,12 +121,12 @@ class Exceptional
 
     public static function getProxyHost()
     {
-        return self::$proxy_host;
+        return self::$proxyHost;
     }
 
     public static function getProxyPort()
     {
-        return self::$proxy_port;
+        return self::$proxyPort;
     }
 
     public static function blacklist($filters = array())
@@ -136,8 +136,8 @@ class Exceptional
 
     public static function shutdown()
     {
-        if ($e = error_get_last()) {
-            static::handleError($e['type'], $e['message'], $e['file'], $e['line']);
+        if ($error = error_get_last()) {
+            static::handleError($error['type'], $error['message'], $error['file'], $error['line']);
         }
     }
 
@@ -173,8 +173,8 @@ class Exceptional
 
         static::handleException($ex, false);
 
-        if (self::$previous_error_handler) {
-            call_user_func(self::$previous_error_handler, $errno, $errstr, $errfile, $errline);
+        if (self::$previousErrorHandler) {
+            call_user_func(self::$previousErrorHandler, $errno, $errstr, $errfile, $errline);
         }
     }
 
@@ -187,14 +187,14 @@ class Exceptional
     {
         self::$exceptions[] = $exception;
 
-        if (Exceptional::$api_key != null) {
+        if (Exceptional::$apiKey != null) {
             $data = new Data($exception);
             Remote::sendException($data);
         }
 
         // if there's a previous exception handler, we call that as well
-        if ($call_previous && self::$previous_exception_handler) {
-            call_user_func(self::$previous_exception_handler, $exception);
+        if ($call_previous && self::$previousExceptionHandler) {
+            call_user_func(self::$previousExceptionHandler, $exception);
         }
     }
 
@@ -210,7 +210,7 @@ class Exceptional
 
     public static function proxy($host, $port)
     {
-        self::$proxy_host = $host;
-        self::$proxy_port = $port;
+        self::$proxyHost = $host;
+        self::$proxyPort = $port;
     }
 }

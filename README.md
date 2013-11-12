@@ -13,19 +13,19 @@ You can turn off exception notifications by passing an empty string as the API k
 
 ```php
 if (PHP_ENV == "production") {
-  $api_key = "YOUR-API-KEY";
+  $apiKey = "YOUR-API-KEY";
 }
 else {
-  $api_key = "";
+  $apiKey = "";
 }
 
-Exceptional::setup($api_key);
+Exceptional::setup($apiKey);
 ```
 
 You can turn on SSL by setting the second parameter to `true`.
 
 ```php
-Exceptional::setup($api_key, true);
+Exceptional::setup($apiKey, true);
 ```
 
 ## Filtering sensitive data
@@ -33,7 +33,7 @@ Exceptional::setup($api_key, true);
 You can blacklist sensitive fields from being submitted to Exceptional:
 
 ```
-Exceptional::setup($api_key);
+Exceptional::setup($apiKey);
 Exceptional::blacklist(array('password', 'creditcardnumber'));
 ```
 

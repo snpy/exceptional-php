@@ -30,12 +30,12 @@ class Data
         $now     = gmdate('c');
 
         // spoof 404 error
-        $error_class = $this->exception instanceof Http404Error
+        $errorClass = $this->exception instanceof Http404Error
             ? 'ActionController::UnknownAction'
             : get_class($this->exception);
 
         $data['exception'] = array(
-            'exception_class' => $error_class,
+            'exception_class' => $errorClass,
             'message'         => $message,
             'backtrace'       => $this->backtrace,
             'occurred_at'     => $now
