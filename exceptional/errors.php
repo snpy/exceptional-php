@@ -1,5 +1,9 @@
 <?php
 
+namespace OBV\Exceptional;
+
+use ErrorException;
+
 class PhpException extends ErrorException
 {
     public function __construct($errstr, $errno, $errfile, $errline)

@@ -1,6 +1,8 @@
 <?php
 
-class ExceptionalEnvironment
+namespace OBV\Exceptional;
+
+class Environment
 {
     private static $environment;
 

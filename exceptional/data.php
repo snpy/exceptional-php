@@ -1,6 +1,10 @@
 <?php
 
-class ExceptionalData
+namespace OBV\Exceptional;
+
+use Exception;
+
+class Data
 {
     private $exception;
     private $data;
@@ -18,7 +22,7 @@ class ExceptionalData
         }
 
         // environment data
-        $data = ExceptionalEnvironment::toArray();
+        $data = Environment::toArray();
 
         // exception data
         $message = $this->exception->getMessage();

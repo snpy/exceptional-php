@@ -1,6 +1,8 @@
 <?php
 
-class ExceptionalRemote
+namespace OBV\Exceptional;
+
+class Remote
 {
     /*
      * Does the actual sending of an exception
@@ -16,7 +18,7 @@ class ExceptionalRemote
         error_reporting($level);
     }
 
-    private static function preparePostData(ExceptionalData $exception)
+    private static function preparePostData(Data $exception)
     {
         $hash       = $exception->uniquenessHash();
         $hashParam  = $hash ? '' : ('&hash=' . $hash);
