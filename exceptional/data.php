@@ -3,6 +3,7 @@
 namespace OBV\Exceptional;
 
 use Exception;
+use OBV\Exceptional\Exception\Http404Error;
 
 class Data
 {
@@ -29,10 +30,9 @@ class Data
         $now     = gmdate('c');
 
         // spoof 404 error
-        $error_class = get_class($this->exception);
-        if ($error_class == '\OBV\Exceptional\Exception\Http404Error') {
-            $error_class = 'ActionController::UnknownAction';
-        }
+        $error_class = $this->exception instanceof Http404Error
+            ? 'ActionController::UnknownAction'
+            : get_class($this->exception);
 
         $data['exception'] = array(
             'exception_class' => $error_class,
