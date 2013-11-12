@@ -9,5 +9,3 @@ error_reporting(E_ALL);
 
 // start testing
 $math = 1 / 0;
-
-?>

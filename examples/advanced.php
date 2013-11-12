@@ -66,5 +66,3 @@ $f->bar();
 // execution halts after exception_handler is called (PHP behavior)
 // so code below never gets called
 echo "This never gets called!";
-
-?>

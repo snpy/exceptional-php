@@ -2,7 +2,6 @@
 
 class ExceptionalEnvironment
 {
-
     private static $environment;
 
     public static function toArray()
