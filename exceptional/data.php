@@ -30,7 +30,7 @@ class Data
 
         // spoof 404 error
         $error_class = get_class($this->exception);
-        if ($error_class == 'Http404Error') {
+        if ($error_class == '\OBV\Exceptional\Exception\Http404Error') {
             $error_class = 'ActionController::UnknownAction';
         }
 
