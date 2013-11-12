@@ -4,7 +4,7 @@ namespace OBV\Test\Exceptional;
 
 use OBV\Exceptional\Exceptional;
 use OBV\Exceptional\Data;
-use OBV\Exceptional\PhpNotice;
+use OBV\Exceptional\Exception\PhpNotice;
 use PHPUnit_Framework_TestCase;
 
 /*
