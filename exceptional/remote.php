@@ -9,7 +9,11 @@ class ExceptionalRemote
     {
         list($url, $data) = static::preparePostData($exception);
 
-        static::callRemote($url, $data);
+        $level = error_reporting(0);
+        if (!static::callRemote($url, $data)) {
+            static::postponeRemoteCall($url, $data);
+        }
+        error_reporting($level);
     }
 
     private static function preparePostData(ExceptionalData $exception)
