@@ -31,8 +31,6 @@ class Remote
 
     private static function postponeRemoteCall($url, $data)
     {
-        list($url, $compressed) = static::preparePostData($data);
-
         $logFile = '/path/to/log/file';
         $logRow  = static::encode($url, $compressed);
         file_put_contents($logFile, $logRow, FILE_APPEND);
