@@ -12,7 +12,7 @@ class ExceptionalRemote
         static::callRemote($url, $data);
     }
 
-    private static function preparePostData(Exception $exception)
+    private static function preparePostData(ExceptionalData $exception)
     {
         $uniqueness_hash = $exception->uniquenessHash();
         $hash_param      = ($uniqueness_hash) ? null : "&hash={$uniqueness_hash}";
