@@ -7,11 +7,19 @@ class ExceptionalRemote
      */
     public static function sendException($exception)
     {
+        list($url, $data) = static::preparePostData($exception);
+
+        static::callRemote($url, $data);
+    }
+
+    private static function preparePostData(Exception $exception)
+    {
         $uniqueness_hash = $exception->uniquenessHash();
         $hash_param      = ($uniqueness_hash) ? null : "&hash={$uniqueness_hash}";
         $url             = "/api/errors?api_key=" . Exceptional::getApiKey() . "&protocol_version=" . Exceptional::getProtocolVersion() . $hash_param;
         $compressed      = gzencode($exception->toJson(), 1);
-        static::callRemote($url, $compressed);
+
+        return array($url, $compressed);
     }
 
     /*
