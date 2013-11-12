@@ -23,6 +23,25 @@ class ExceptionalRemote
         return array($url, $compressed);
     }
 
+    private static function postponeRemoteCall($url, $data)
+    {
+        list($url, $compressed) = static::preparePostData($data);
+
+        $logFile = '/path/to/log/file';
+        $logRow  = static::encode($url, $compressed);
+        file_put_contents($logFile, $logRow, FILE_APPEND);
+    }
+
+    private static function encode($url, $compressed)
+    {
+        return $url . "\x00" . $compressed;
+    }
+
+    public static function decode($data)
+    {
+        return explode("\x00", $data, 2);
+    }
+
     /*
      * Sends a POST request
      */
