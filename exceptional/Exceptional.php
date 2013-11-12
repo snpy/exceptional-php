@@ -14,9 +14,9 @@ class Exceptional
     private static $api_key;
     private static $use_ssl;
 
-    private static $host = "plugin.getexceptional.com";
-    private static $client_name = "exceptional-php";
-    private static $version = "1.5";
+    private static $host = 'plugin.getexceptional.com';
+    private static $client_name = 'exceptional-php';
+    private static $version = '1.5';
     private static $protocol_version = 6;
 
     private static $controller;
@@ -33,7 +33,7 @@ class Exceptional
      */
     public static function setup($api_key, $use_ssl = false)
     {
-        if ($api_key == "") {
+        if ($api_key == '') {
             $api_key = null;
         }
 
@@ -42,20 +42,20 @@ class Exceptional
 
         self::$exceptions = array();
         self::$context    = array();
-        self::$action     = "";
-        self::$controller = "";
+        self::$action     = '';
+        self::$controller = '';
 
         // set exception handler & keep old exception handler around
         self::$previous_exception_handler = set_exception_handler(
-            array("Exceptional", "handleException")
+            array('Exceptional', 'handleException')
         );
 
         self::$previous_error_handler = set_error_handler(
-            array("Exceptional", "handleError")
+            array('Exceptional', 'handleError')
         );
 
         register_shutdown_function(
-            array("Exceptional", "shutdown")
+            array('Exceptional', 'shutdown')
         );
     }
 
@@ -137,7 +137,7 @@ class Exceptional
     public static function shutdown()
     {
         if ($e = error_get_last()) {
-            static::handleError($e["type"], $e["message"], $e["file"], $e["line"]);
+            static::handleError($e['type'], $e['message'], $e['file'], $e['line']);
         }
     }
 
