@@ -7,7 +7,7 @@
 
 require "PHPUnit/Autoload.php";
 
-require dirname(__FILE__)."/../exceptional.php";
+require dirname(__FILE__) . "/../exceptional.php";
 
 // report all errors
 error_reporting(-1);
@@ -41,9 +41,9 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
 
     public function testBlacklist()
     {
-        $_POST["password"] = "test123";
+        $_POST["password"]                 = "test123";
         $_POST["user"]["creditcardnumber"] = 1234;
-        $_POST["zipcode"] = 55555;
+        $_POST["zipcode"]                  = 55555;
 
         Exceptional::blacklist(array('password', 'creditcardnumber'));
         $this->createExceptionData();
@@ -67,7 +67,7 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
     public function testSessionFilter()
     {
         $session_name = md5(rand());
-        $session_id = md5(rand());
+        $session_id   = md5(rand());
 
         ini_set("session.name", $session_name);
         $_SERVER["HTTP_Cookie"] = "$session_name=$session_id";
@@ -79,9 +79,8 @@ class ExceptionalTest extends PHPUnit_Framework_TestCase
 
     private function createExceptionData()
     {
-        $notice = new PhpNotice("Test", 0, "", 0);
-        $this->data = new ExceptionalData($notice);
+        $notice        = new PhpNotice("Test", 0, "", 0);
+        $this->data    = new ExceptionalData($notice);
         $this->request = $this->data->getData()["request"];
     }
-
 }
