@@ -12,7 +12,7 @@ class Exceptional
     private static $previousErrorHandler;
 
     private static $apiKey;
-    private static $use_ssl;
+    private static $useSsl;
 
     private static $host = 'plugin.getexceptional.com';
     private static $clientName = 'exceptional-php';
@@ -35,15 +35,15 @@ class Exceptional
     final public static function setup($apiKey, $useSsl = false)
     {
         if (self::$registered) {
-            if ($apiKey !== self::$apiKey || $useSsl !== self::$use_ssl) {
+            if ($apiKey !== self::$apiKey || $useSsl !== self::$useSsl) {
                 throw new RuntimeException('Exceptional system can be initiated only once');
             }
 
             return;
         }
 
-        self::$apiKey  = empty($apiKey) ? null : $apiKey;
-        self::$use_ssl = $useSsl;
+        self::$apiKey = empty($apiKey) ? null : $apiKey;
+        self::$useSsl = $useSsl;
 
         self::$exceptions = array();
         self::$context    = array();
@@ -64,7 +64,7 @@ class Exceptional
 
     public static function getUseSsl()
     {
-        return self::$use_ssl;
+        return self::$useSsl;
     }
 
     public static function getHost()
