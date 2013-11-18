@@ -33,11 +33,7 @@ class Exceptional
      */
     public static function setup($apiKey, $useSsl = false)
     {
-        if ($apiKey == '') {
-            $apiKey = null;
-        }
-
-        self::$apiKey = $apiKey;
+        self::$apiKey  = empty($apiKey) ? null : $apiKey;
         self::$use_ssl = $useSsl;
 
         self::$exceptions = array();
@@ -45,18 +41,9 @@ class Exceptional
         self::$action     = '';
         self::$controller = '';
 
-        // set exception handler & keep old exception handler around
-        self::$previousExceptionHandler = set_exception_handler(
-            array('Exceptional', 'handleException')
-        );
-
-        self::$previousErrorHandler = set_error_handler(
-            array('Exceptional', 'handleError')
-        );
-
-        register_shutdown_function(
-            array('Exceptional', 'shutdown')
-        );
+        self::$previousExceptionHandler = set_exception_handler(array('Exceptional', 'handleException'));
+        self::$previousErrorHandler = set_error_handler(array('Exceptional', 'handleError'));
+        register_shutdown_function(array('Exceptional', 'shutdown'));
     }
 
     public static function getApiKey()
@@ -174,19 +161,13 @@ class Exceptional
      * stack and calls the previous handler, if it exists. Ensures seamless
      * integration.
      */
-    private static function handleException($exception, $call_previous = true)
+    private static function handleException($exception, $callPrevious = true)
     {
         self::$exceptions[] = $exception;
 
-        if (Exceptional::$apiKey != null) {
-            $data = new Data($exception);
-            Remote::sendException($data);
-        }
+        Exceptional::$apiKey && Remote::sendException(new Data($exception));
 
-        // if there's a previous exception handler, we call that as well
-        if ($call_previous && self::$previousExceptionHandler) {
-            call_user_func(self::$previousExceptionHandler, $exception);
-        }
+        $callPrevious && self::$previousExceptionHandler && call_user_func(self::$previousExceptionHandler, $exception);
     }
 
     public static function context($data = array())
