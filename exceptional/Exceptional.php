@@ -26,6 +26,8 @@ class Exceptional
     private static $proxyHost;
     private static $proxyPort;
 
+    private static $logDirectory;
+
     /*
      * Installs Exceptional as the default exception handler
      */
@@ -112,6 +114,16 @@ class Exceptional
     public static function getProxyPort()
     {
         return self::$proxyPort;
+    }
+
+    public static function setLogDirectory($logDirectory)
+    {
+        static::$logDirectory = $logDirectory;
+    }
+
+    public static function getLogDirectory()
+    {
+        return static::$logDirectory;
     }
 
     public static function blacklist($filters = array())
