@@ -36,12 +36,12 @@ class Remote
 
     public static function encode($url, $compressed)
     {
-        return $url . "\x00" . $compressed;
+        return base64_encode($url . "\x00" . $compressed);
     }
 
     public static function decode($data)
     {
-        return explode("\x00", $data, 2);
+        return explode("\x00", base64_decode($data), 2);
     }
 
     /*
