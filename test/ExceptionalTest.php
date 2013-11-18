@@ -14,11 +14,11 @@ use PHPUnit_Framework_TestCase;
  */
 
 require_once 'PHPUnit/Autoload.php';
-require_once __DIR__ . '/../exceptional/Data.php';
-require_once __DIR__ . '/../exceptional/Environment.php';
-require_once __DIR__ . '/../exceptional/Exception/PhpException.php';
-require_once __DIR__ . '/../exceptional/Exception/PhpNotice.php';
-require_once __DIR__ . '/../exceptional/Exceptional.php';
+require_once __DIR__ . '/../Exceptional/Data.php';
+require_once __DIR__ . '/../Exceptional/Environment.php';
+require_once __DIR__ . '/../Exceptional/Exception/PhpException.php';
+require_once __DIR__ . '/../Exceptional/Exception/PhpNotice.php';
+require_once __DIR__ . '/../Exceptional/Exceptional.php';
 
 class ExceptionalTest extends PHPUnit_Framework_TestCase
 {
