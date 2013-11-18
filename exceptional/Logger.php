@@ -18,7 +18,7 @@ class Logger
     public static function log($data)
     {
         if ($directory = Exceptional::getLogDirectory()) {
-            file_put_contents(tempnam($directory, 'eio-'), static::encode($url, $data), FILE_APPEND);
+            file_put_contents(tempnam($directory, 'eio-'), Remote::encode($url, $data), FILE_APPEND);
         }
     }
 
