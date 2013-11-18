@@ -2,8 +2,6 @@
 
 namespace OBV\Exceptional;
 
-use OBV\Exceptional\Exception as Error;
-
 class Exceptional
 {
     private static $exceptions;
