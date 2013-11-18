@@ -21,7 +21,7 @@ class Remote
     private static function preparePostData(Data $exception)
     {
         $hash       = $exception->uniquenessHash();
-        $hashParam  = $hash ? '' : ('&hash=' . $hash);
+        $hashParam  = $hash ? ('&hash=' . $hash) : '';
         $url        = '/api/errors?api_key=%s&protocol_version=%s%s';
         $url        = sprintf($url, Exceptional::getApiKey(), Exceptional::getProtocolVersion(), $hashParam);
         $compressed = gzencode($exception->toJson(), 1);
