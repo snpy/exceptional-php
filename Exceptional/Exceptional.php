@@ -2,6 +2,8 @@
 
 namespace OBV\Exceptional;
 
+use RuntimeException;
+
 class Exceptional
 {
     private static $exceptions;
@@ -28,8 +30,18 @@ class Exceptional
 
     private static $logDirectory;
 
+    private static $registered = false;
+
     final public static function setup($apiKey, $useSsl = false)
     {
+        if (self::$registered) {
+            if ($apiKey !== self::$apiKey || $useSsl !== self::$use_ssl) {
+                throw new RuntimeException('Exceptional system can be initiated only once');
+            }
+
+            return;
+        }
+
         self::$apiKey  = empty($apiKey) ? null : $apiKey;
         self::$use_ssl = $useSsl;
 
@@ -41,6 +53,8 @@ class Exceptional
         self::$previousExceptionHandler = set_exception_handler(array('Exceptional', 'handleException'));
         self::$previousErrorHandler = set_error_handler(array('Exceptional', 'handleError'));
         register_shutdown_function(array('Exceptional', 'shutdown'));
+
+        self::$registered = true;
     }
 
     public static function getApiKey()
