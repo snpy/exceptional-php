@@ -54,9 +54,8 @@ class Data
                 $headers['Cookie'] = preg_replace($searchFor, $replaceWith, $headers['Cookie']);
             }
 
-            $server = $_SERVER;
             $keys   = array('HTTPS', 'HTTP_HOST', 'REQUEST_URI', 'REQUEST_METHOD', 'REMOTE_ADDR');
-            $this->fillKeys($server, $keys);
+            $server = $this->fillKeys($_SERVER, $keys);
 
             $protocol = $server['HTTPS'] && $server['HTTPS'] != 'off' ? 'https://' : 'http://';
             $url      = $server['HTTP_HOST'] ? ($protocol . $server['HTTP_HOST'] . $server['REQUEST_URI']) : '';
@@ -69,14 +68,14 @@ class Data
                 'session'        => $session
             );
 
-            $params = array_merge($_GET, $_POST);
+            $parameters = array_merge($_GET, $_POST);
 
             foreach (Exceptional::getBlackList() as $filter) {
-                $params = $this->filterParams($params, $filter);
+                $parameters = $this->filterParams($parameters, $filter);
             }
 
-            if (!empty($params)) {
-                $data['request']['parameters'] = $params;
+            if (!empty($parameters)) {
+                $data['request']['parameters'] = $parameters;
             }
         } else {
             $data['request'] = array();
@@ -120,25 +119,27 @@ class Data
         return $this->data;
     }
 
-    private function fillKeys(&$arr, $keys)
+    private function fillKeys(array $dataSet, array $keys)
     {
         foreach ($keys as $key) {
-            if (!isset($arr[$key])) {
-                $arr[$key] = false;
+            if (!isset($dataSet[$key])) {
+                $dataSet[$key] = false;
             }
         }
+
+        return $dataSet;
     }
 
-    private function filterParams($params, $term)
+    private function filterParams($parameters, $term)
     {
-        foreach ($params as $key => $value) {
+        foreach ($parameters as $key => $value) {
             if (preg_match('/' . $term. '/i', $key)) {
-                $params[$key] = '[FILTERED]';
+                $parameters[$key] = '[FILTERED]';
             } elseif (is_array($value)) {
-                $params[$key] = $this->filterParams($value, $term);
+                $parameters[$key] = $this->filterParams($value, $term);
             }
         }
 
-        return $params;
+        return $parameters;
     }
 }
