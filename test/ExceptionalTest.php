@@ -13,7 +13,12 @@ use PHPUnit_Framework_TestCase;
  * phpunit test/*
  */
 
-require 'PHPUnit/Autoload.php';
+require_once 'PHPUnit/Autoload.php';
+require_once __DIR__ . '/../exceptional/Data.php';
+require_once __DIR__ . '/../exceptional/Environment.php';
+require_once __DIR__ . '/../exceptional/Exception/PhpException.php';
+require_once __DIR__ . '/../exceptional/Exception/PhpNotice.php';
+require_once __DIR__ . '/../exceptional/Exceptional.php';
 
 class ExceptionalTest extends PHPUnit_Framework_TestCase
 {
