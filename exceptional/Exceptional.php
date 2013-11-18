@@ -29,7 +29,7 @@ class Exceptional
     /*
      * Installs Exceptional as the default exception handler
      */
-    public static function setup($apiKey, $useSsl = false)
+    final public static function setup($apiKey, $useSsl = false)
     {
         self::$apiKey  = empty($apiKey) ? null : $apiKey;
         self::$use_ssl = $useSsl;
