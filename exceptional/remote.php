@@ -46,10 +46,28 @@ class Remote
 
     public static function callRemote($path, $postData)
     {
-        $defaultPort = Exceptional::getUseSsl() ? 443 : 80;
+        if (!$socket = static::openSocket($protocol)) {
+            return false;
+        }
 
+        $url = $protocol . '://' . Exceptional::getHost() . $path;
+
+        fwrite($socket, static::createRequest($url, $postData));
+
+        $response = '';
+        while (!feof($socket)) {
+            $response .= fgets($socket);
+        }
+
+        fclose($socket);
+
+        return true;
+    }
+
+    private static function openSocket(&$protocol = null)
+    {
         $host = Exceptional::getProxyHost() ? : Exceptional::getHost();
-        $port = Exceptional::getProxyPort() ? : $defaultPort;
+        $port = Exceptional::getProxyPort() ? : (Exceptional::getUseSsl() ? 443 : 80);
 
         if (Exceptional::getUseSsl() === true) {
             $socket   = fsockopen('ssl://' . $host, $port, $errorNumber, $errorString, 4);
@@ -59,13 +77,17 @@ class Remote
             $protocol = 'http';
         }
 
-        if (!$socket) {
-            printf('[Error %s] %s%s', $errorNumber, $errorString, PHP_EOL);
-
-            return false;
+        if ($socket) {
+            return $socket;
         }
 
-        $url = $protocol . '://' . Exceptional::getHost() . $path;
+        printf('[Error %s] %s%s', $errorNumber, $errorString, PHP_EOL);
+
+        return null;
+    }
+
+    private static function createRequest($url, $postData)
+    {
         $eol = "\r\n";
 
         $request = sprintf('POST %s HTTP/1.1', $url) . $eol;
@@ -77,15 +99,6 @@ class Remote
         $request .= 'Content-Length: ' . strlen($postData) . $eol . $eol;
         $request .= $postData . $eol;
 
-        fwrite($socket, $request);
-
-        $response = '';
-        while (!feof($socket)) {
-            $response .= fgets($socket);
-        }
-
-        fclose($socket);
-
-        return true;
+        return $request;
     }
 }
