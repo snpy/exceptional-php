@@ -141,6 +141,23 @@ class Exceptional
         }
     }
 
+    private static function errorToException($errno, $errstr, $errfile, $errline)
+    {
+        $map = array(
+            E_NOTICE          => 'PhpNotice',
+            E_USER_NOTICE     => 'PhpNotice',
+            E_DEPRECATED      => 'PhpDeprecated',
+            E_USER_DEPRECATED => 'PhpDeprecated',
+            E_WARNING         => 'PhpWarning',
+            E_USER_WARNING    => 'PhpWarning',
+            E_STRICT          => 'PhpStrict',
+            E_PARSE           => 'PhpParse',
+        );
+        $class = '\OBV\Exceptional\Exception\\' . (isset($map[$errno]) ? $map[$errno] : 'PhpError');
+
+        return new $class($errno, $errstr, $errfile, $errline);
+    }
+
     private static function handleError($errno, $errstr, $errfile, $errline)
     {
         if (!(error_reporting() & $errno)) {
