@@ -97,11 +97,8 @@ class Data
         $headers = array();
         foreach ($_SERVER as $name => $value) {
             if (substr($name, 0, 5) == 'HTTP_') {
-                $headers[str_replace(
-                    ' ',
-                    '-',
-                    ucwords(strtolower(str_replace('_', ' ', substr($name, 5))))
-                )] = $value;
+                $headerName = strtr(ucwords(strtolower(strtr(substr($name, 5), '_', ' '))), ' ', '-');
+                $headers[$headerName] = $value;
             }
         }
 
