@@ -44,10 +44,7 @@ class Remote
         return explode("\x00", base64_decode($data), 2);
     }
 
-    /*
-     * Sends a POST request
-     */
-    private static function callRemote($path, $postData)
+    public static function callRemote($path, $postData)
     {
         $defaultPort = Exceptional::getUseSsl() ? 443 : 80;
 
