@@ -24,7 +24,7 @@ class Remote
         $hashParam  = $hash ? ('&hash=' . $hash) : '';
         $url        = '/api/errors?api_key=%s&protocol_version=%s%s';
         $url        = sprintf($url, Exceptional::getApiKey(), Exceptional::getProtocolVersion(), $hashParam);
-        $compressed = gzencode($exception->toJson(), 1);
+        $compressed = gzencode($exception->toJson());
 
         return array($url, $compressed);
     }
