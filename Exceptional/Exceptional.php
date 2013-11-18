@@ -6,7 +6,7 @@ use RuntimeException;
 
 class Exceptional
 {
-    private static $exceptions;
+    private static $exceptions = array();
 
     private static $previousExceptionHandler;
     private static $previousErrorHandler;
@@ -19,9 +19,9 @@ class Exceptional
     private static $version = '1.5';
     private static $protocolVersion = 6;
 
-    private static $controller;
-    private static $action;
-    private static $context;
+    private static $controller = '';
+    private static $action = '';
+    private static $context = array();
 
     private static $blacklist = array();
 
@@ -44,11 +44,6 @@ class Exceptional
 
         self::$apiKey = empty($apiKey) ? null : $apiKey;
         self::$useSsl = $useSsl;
-
-        self::$exceptions = array();
-        self::$context    = array();
-        self::$action     = '';
-        self::$controller = '';
 
         self::$previousExceptionHandler = set_exception_handler(array('Exceptional', 'handleException'));
         self::$previousErrorHandler = set_error_handler(array('Exceptional', 'handleError'));
