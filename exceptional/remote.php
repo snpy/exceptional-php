@@ -34,7 +34,7 @@ class Remote
         Logger::log(static::encode($url, $data));
     }
 
-    private static function encode($url, $compressed)
+    public static function encode($url, $compressed)
     {
         return $url . "\x00" . $compressed;
     }
