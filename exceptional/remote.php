@@ -31,17 +31,7 @@ class Remote
 
     private static function postponeRemoteCall($url, $data)
     {
-        Logger::log(static::encode($url, $data));
-    }
-
-    public static function encode($url, $compressed)
-    {
-        return base64_encode($url . "\x00" . $compressed);
-    }
-
-    public static function decode($data)
-    {
-        return explode("\x00", base64_decode($data), 2);
+        Logger::log(Encoder::encode($url, $data));
     }
 
     public static function callRemote($path, $postData)
