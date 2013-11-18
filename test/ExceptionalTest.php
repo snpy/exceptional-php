@@ -7,12 +7,6 @@ use OBV\Exceptional\Data;
 use OBV\Exceptional\Exception\PhpNotice;
 use PHPUnit_Framework_TestCase;
 
-/*
- * To run all tests, use:
- *
- * phpunit test/*
- */
-
 require_once 'PHPUnit/Autoload.php';
 require_once __DIR__ . '/../Exceptional/Data.php';
 require_once __DIR__ . '/../Exceptional/Environment.php';

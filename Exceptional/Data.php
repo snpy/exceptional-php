@@ -22,14 +22,11 @@ class Data
             }
         }
 
-        // environment data
         $data = Environment::toArray();
 
-        // exception data
         $message = $this->exception->getMessage();
         $now     = gmdate('c');
 
-        // spoof 404 error
         $errorClass = $this->exception instanceof Http404Error
             ? 'ActionController::UnknownAction'
             : get_class($this->exception);
@@ -41,17 +38,14 @@ class Data
             'occurred_at'     => $now
         );
 
-        // context
         $context = Exceptional::getContext();
         if (!empty($context)) {
             $data['context'] = $context;
         }
 
         if (isset($_SERVER['HTTP_HOST'])) {
-            // request data
             $session = isset($_SESSION) ? $_SESSION : array();
 
-            // sanitize headers
             $headers = $this->getAllHeaders();
             if (isset($headers['Cookie'])) {
                 $sessionKey        = preg_quote(ini_get('session.name'), '/');

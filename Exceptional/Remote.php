@@ -4,9 +4,6 @@ namespace OBV\Exceptional;
 
 class Remote
 {
-    /*
-     * Does the actual sending of an exception
-     */
     public static function sendException($exception)
     {
         list($url, $data) = static::preparePostData($exception);

@@ -28,9 +28,6 @@ class Exceptional
 
     private static $logDirectory;
 
-    /*
-     * Installs Exceptional as the default exception handler
-     */
     final public static function setup($apiKey, $useSsl = false)
     {
         self::$apiKey  = empty($apiKey) ? null : $apiKey;
@@ -166,11 +163,6 @@ class Exceptional
         self::$previousErrorHandler && call_user_func(self::$previousErrorHandler, $errno, $errstr, $errfile, $errline);
     }
 
-    /*
-     * Exception handle class. Pushes the current exception onto the exception
-     * stack and calls the previous handler, if it exists. Ensures seamless
-     * integration.
-     */
     private static function handleException($exception, $callPrevious = true)
     {
         self::$exceptions[] = $exception;
