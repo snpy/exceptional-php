@@ -161,38 +161,12 @@ class Exceptional
     private static function handleError($errno, $errstr, $errfile, $errline)
     {
         if (!(error_reporting() & $errno)) {
-            // this error code is not included in error_reporting
             return;
         }
 
-        switch ($errno) {
-            case E_NOTICE:
-            case E_USER_NOTICE:
-                $ex = new Error\PhpNotice($errstr, $errno, $errfile, $errline);
-                break;
+        static::handleException(static::errorToException($errno, $errstr, $errfile, $errline), false);
 
-            case E_WARNING:
-            case E_USER_WARNING:
-                $ex = new Error\PhpWarning($errstr, $errno, $errfile, $errline);
-                break;
-
-            case E_STRICT:
-                $ex = new Error\PhpStrict($errstr, $errno, $errfile, $errline);
-                break;
-
-            case E_PARSE:
-                $ex = new Error\PhpParse($errstr, $errno, $errfile, $errline);
-                break;
-
-            default:
-                $ex = new Error\PhpError($errstr, $errno, $errfile, $errline);
-        }
-
-        static::handleException($ex, false);
-
-        if (self::$previousErrorHandler) {
-            call_user_func(self::$previousErrorHandler, $errno, $errstr, $errfile, $errline);
-        }
+        self::$previousErrorHandler && call_user_func(self::$previousErrorHandler, $errno, $errstr, $errfile, $errline);
     }
 
     /*
