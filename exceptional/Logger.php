@@ -17,13 +17,13 @@ class Logger
 {
     public static function log($data)
     {
-        $logFile = tempnam(Exceptional::getLogDirectory(), 'eio-');
-
-        file_put_contents($logFile, static::encode($url, $data), FILE_APPEND);
+        if ($directory = Exceptional::getLogDirectory()) {
+            file_put_contents(tempnam($directory, 'eio-'), static::encode($url, $data), FILE_APPEND);
+        }
     }
 
     public static function getLogFiles()
     {
-        return glob(Exceptional::getLogDirectory() . '/eio-*');
+        return ($directory = Exceptional::getLogDirectory()) ? glob($directory . '/eio-*') : array();
     }
 }
