@@ -13,19 +13,19 @@ You can turn off exception notifications by passing an empty string as the API k
 
 ```php
 if (PHP_ENV == "production") {
-  $api_key = "YOUR-API-KEY";
+  $apiKey = "YOUR-API-KEY";
 }
 else {
-  $api_key = "";
+  $apiKey = "";
 }
 
-Exceptional::setup($api_key);
+Exceptional::setup($apiKey);
 ```
 
 You can turn on SSL by setting the second parameter to `true`.
 
 ```php
-Exceptional::setup($api_key, true);
+Exceptional::setup($apiKey, true);
 ```
 
 ## Filtering sensitive data
@@ -33,7 +33,7 @@ Exceptional::setup($api_key, true);
 You can blacklist sensitive fields from being submitted to Exceptional:
 
 ```
-Exceptional::setup($api_key);
+Exceptional::setup($apiKey);
 Exceptional::blacklist(array('password', 'creditcardnumber'));
 ```
 
@@ -54,7 +54,7 @@ Fatal and parse errors are caught, too - as long the setup file parses correctly
 Add the following code to your 404 handler to track 404 errors:
 
 ```php
-throw new Http404Error();
+throw new \OBV\Component\Exceptional\Exception\Http404Error();
 ```
 
 ## Send extra data with your exceptions
@@ -73,8 +73,8 @@ See the [Exceptional documentation](http://docs.getexceptional.com/extras/contex
 You can include the controller and action names in your exceptions for easier debugging.
 
 ```php
-Exceptional::$controller = "welcome";
-Exceptional::$action = "index";
+Exceptional::setController('welcome');
+Exceptional::setAction('index');
 ```
 
 ## Proxy server

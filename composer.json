@@ -1,10 +1,24 @@
 {
-    "name": "ankane/exceptional-php",
+    "name":        "snpy/exceptional-php",
+    "type":        "library",
     "description": "The power of Exceptional for PHP",
-    "type": "library",
-    "homepage": "https://github.com/ankane/exceptional-php",
-    "license": "MIT",
-    "support": {
-        "issues": "https://github.com/ankane/exceptional-php/issues?state=open"
-    }
+    "keywords":    [],
+    "homepage":    "https://github.com/snpy/exceptional-php",
+    "license":     "MIT",
+    "authors":     [],
+    "support":     {
+        "issues": "https://github.com/snpy/exceptional-php/issues?state=open"
+    },
+    "require":     {
+        "php": ">=5.3.3"
+    },
+    "replace":     {},
+    "require-dev": {},
+    "suggest":     {},
+    "autoload":    {
+        "psr-0": {
+            "OBV\\Component\\Exceptional\\": ""
+        }
+    },
+    "target-dir":  "OBV/Component/Exceptional"
 }
