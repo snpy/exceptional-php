@@ -27,7 +27,13 @@ class CronRemote
             }
             unset($report);
 
-            if (array_filter($reports) || !unlink($filePath)) {
+            $reports = array_filter($reports);
+            if ($reports) {
+                file_put_contents($filePath, $reports);
+
+                return false;
+            }
+            if (!unlink($filePath)) {
                 return false;
             }
         }
