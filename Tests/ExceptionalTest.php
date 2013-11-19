@@ -1,6 +1,6 @@
 <?php
 
-namespace OBV\Test\Exceptional;
+namespace OBV\Component\Exceptional\Tests;
 
 use OBV\Component\Exceptional\Exceptional;
 use OBV\Component\Exceptional\Data;
