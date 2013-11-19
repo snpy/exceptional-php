@@ -1,11 +1,11 @@
 <?php
 
-namespace OBV\Exceptional\Exception;
+namespace OBV\Component\Exceptional\Exception;
 
 /**
  * Class PhpStrict
  *
- * @package OBV\Exceptional\Exception
+ * @package OBV\Component\Exceptional\Exception
  */
 class PhpStrict extends PhpException
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace OBV\Exceptional;
+namespace OBV\Component\Exceptional;
 
 /**
  * @file
@@ -11,7 +11,7 @@ namespace OBV\Exceptional;
 /**
  * Class Encoder
  *
- * @package OBV\Exceptional
+ * @package OBV\Component\Exceptional
  */
 class Encoder
 {

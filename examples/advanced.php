@@ -1,6 +1,6 @@
 <?php
 
-use OBV\Exceptional\Exceptional;
+use OBV\Component\Exceptional\Exceptional;
 
 // set custom error handler
 function my_error_handler($errno, $errstr, $errfile, $errline) {

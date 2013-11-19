@@ -1,14 +1,14 @@
 <?php
 
-namespace OBV\Exceptional;
+namespace OBV\Component\Exceptional;
 
-use OBV\Exceptional\Exception\PhpException;
+use OBV\Component\Exceptional\Exception\PhpException;
 use RuntimeException;
 
 /**
  * Class Exceptional
  *
- * @package OBV\Exceptional
+ * @package OBV\Component\Exceptional
  */
 class Exceptional
 {
@@ -296,7 +296,7 @@ class Exceptional
             E_STRICT          => 'PhpStrict',
             E_PARSE           => 'PhpParse',
         );
-        $class = '\OBV\Exceptional\Exception\\' . (isset($map[$errno]) ? $map[$errno] : 'PhpError');
+        $class = '\OBV\Component\Exceptional\Exception\\' . (isset($map[$errno]) ? $map[$errno] : 'PhpError');
 
         return new $class($errno, $errstr, $errfile, $errline);
     }

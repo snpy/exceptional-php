@@ -1,14 +1,14 @@
 <?php
 
-namespace OBV\Exceptional;
+namespace OBV\Component\Exceptional;
 
 use Exception;
-use OBV\Exceptional\Exception\Http404Error;
+use OBV\Component\Exceptional\Exception\Http404Error;
 
 /**
  * Class Data
  *
- * @package OBV\Exceptional
+ * @package OBV\Component\Exceptional
  */
 class Data
 {

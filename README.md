@@ -54,7 +54,7 @@ Fatal and parse errors are caught, too - as long the setup file parses correctly
 Add the following code to your 404 handler to track 404 errors:
 
 ```php
-throw new \OBV\Exceptional\Exception\Http404Error();
+throw new \OBV\Component\Exceptional\Exception\Http404Error();
 ```
 
 ## Send extra data with your exceptions

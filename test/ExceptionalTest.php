@@ -2,17 +2,13 @@
 
 namespace OBV\Test\Exceptional;
 
-use OBV\Exceptional\Exceptional;
-use OBV\Exceptional\Data;
-use OBV\Exceptional\Exception\PhpNotice;
+use OBV\Component\Exceptional\Exceptional;
+use OBV\Component\Exceptional\Data;
+use OBV\Component\Exceptional\Exception\PhpNotice;
 use PHPUnit_Framework_TestCase;
 
 require_once 'PHPUnit/Autoload.php';
-require_once __DIR__ . '/../Exceptional/Data.php';
-require_once __DIR__ . '/../Exceptional/Environment.php';
-require_once __DIR__ . '/../Exceptional/Exception/PhpException.php';
-require_once __DIR__ . '/../Exceptional/Exception/PhpNotice.php';
-require_once __DIR__ . '/../Exceptional/Exceptional.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class ExceptionalTest extends PHPUnit_Framework_TestCase
 {

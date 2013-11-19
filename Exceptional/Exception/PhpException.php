@@ -1,13 +1,13 @@
 <?php
 
-namespace OBV\Exceptional\Exception;
+namespace OBV\Component\Exceptional\Exception;
 
 use ErrorException;
 
 /**
  * Class PhpException
  *
- * @package OBV\Exceptional\Exception
+ * @package OBV\Component\Exceptional\Exception
  */
 class PhpException extends ErrorException
 {

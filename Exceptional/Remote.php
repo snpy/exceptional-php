@@ -1,11 +1,11 @@
 <?php
 
-namespace OBV\Exceptional;
+namespace OBV\Component\Exceptional;
 
 /**
  * Class Remote
  *
- * @package OBV\Exceptional
+ * @package OBV\Component\Exceptional
  */
 class Remote
 {

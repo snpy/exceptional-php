@@ -1,11 +1,11 @@
 <?php
 
-namespace OBV\Exceptional;
+namespace OBV\Component\Exceptional;
 
 /**
  * Class Environment
  *
- * @package OBV\Exceptional
+ * @package OBV\Component\Exceptional
  */
 class Environment
 {

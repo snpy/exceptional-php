@@ -1,11 +1,11 @@
 <?php
 
-namespace OBV\Exceptional\Exception;
+namespace OBV\Component\Exceptional\Exception;
 
 /**
  * Class PhpParse
  *
- * @package OBV\Exceptional\Exception
+ * @package OBV\Component\Exceptional\Exception
  */
 class PhpParse extends PhpException
 {
