@@ -21,7 +21,9 @@ class CronRemote
             foreach ($reports as &$report) {
                 list($url, $data) = Encoder::decode($report);
 
+                $level = error_reporting(0);
                 Remote::callRemote($url, $data) && ($report = null);
+                error_reporting($level);
             }
             unset($report);
 
