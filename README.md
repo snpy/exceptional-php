@@ -5,19 +5,17 @@ The power of [Exceptional](http://getexceptional.com) for PHP
 ## Super simple setup
 
 ```php
-require "path/to/exceptional.php";
-Exceptional::setup("YOUR-API-KEY");
+require_once 'vendor/autoload.php';
+
+use OBV\Component\Exceptional\Exceptional;
+
+Exceptional::setup('YOUR-API-KEY');
 ```
 
 You can turn off exception notifications by passing an empty string as the API key.  This is great for development.
 
 ```php
-if (PHP_ENV == "production") {
-  $apiKey = "YOUR-API-KEY";
-}
-else {
-  $apiKey = "";
-}
+$apiKey = ('production' === PHP_ENV) ? 'YOUR-API-KEY' : '';
 
 Exceptional::setup($apiKey);
 ```
@@ -28,11 +26,30 @@ You can turn on SSL by setting the second parameter to `true`.
 Exceptional::setup($apiKey, true);
 ```
 
+Additionally you can enable logging failed reports by passing path to folder as third parameter.
+
+```php
+Exceptional::setup($apiKey, true, '/tmp/eio-logs');
+```
+
+## Resending logged reports
+
+```php
+require __DIR__ . '/../vendor/autoload.php';
+
+use OBV\Component\Exceptional\Exceptional;
+use OBV\Component\Exceptional\CronRemote;
+
+Exceptional::setup($apiKey, true, '/tmp/eio-logs');
+
+CronRemote::sendExceptions();
+```
+
 ## Filtering sensitive data
 
 You can blacklist sensitive fields from being submitted to Exceptional:
 
-```
+```php
 Exceptional::setup($apiKey);
 Exceptional::blacklist(array('password', 'creditcardnumber'));
 ```
@@ -61,7 +78,7 @@ throw new \OBV\Component\Exceptional\Exception\Http404Error();
 
 ```php
 $context = array(
-    "user_id" => 1
+    'user_id' => 1,
 );
 Exceptional::context($context);
 ```
