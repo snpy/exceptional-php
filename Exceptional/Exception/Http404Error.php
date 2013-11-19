@@ -4,8 +4,16 @@ namespace OBV\Exceptional\Exception;
 
 use Exception;
 
+/**
+ * Class Http404Error
+ *
+ * @package OBV\Exceptional\Exception
+ */
 class Http404Error extends Exception
 {
+    /**
+     * Http404Error c-tor
+     */
     public function __construct()
     {
         if (!isset($_SERVER['HTTP_HOST'])) {

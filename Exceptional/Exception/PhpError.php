@@ -2,11 +2,20 @@
 
 namespace OBV\Exceptional\Exception;
 
+/**
+ * Class PhpError
+ *
+ * @package OBV\Exceptional\Exception
+ */
 class PhpError extends PhpException
 {
-    /*
-     * Must change the error message for undefined variables
-     * Otherwise, Exceptional groups all errors together (regardless of variable name)
+    /**
+     * PhpError c-tor
+     *
+     * @param string $errstr
+     * @param int    $errno
+     * @param int    $errfile
+     * @param string $errline
      */
     public function __construct($errstr, $errno, $errfile, $errline)
     {
