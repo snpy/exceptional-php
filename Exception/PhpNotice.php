@@ -12,16 +12,16 @@ class PhpNotice extends PhpException
     /**
      * PhpNotice c-tor
      *
-     * @param string $errstr
-     * @param int    $errno
-     * @param int    $errfile
-     * @param string $errline
+     * @param string $message
+     * @param int    $severity
+     * @param int    $filename
+     * @param string $lineno
      */
-    public function __construct($errstr, $errno, $errfile, $errline)
+    public function __construct($message, $severity, $filename, $lineno)
     {
-        if (@substr($errstr, 0, 20) == 'Undefined variable: ') {
-            $errstr = '$' . substr($errstr, 20) . ' is undefined';
+        if (@substr($message, 0, 20) == 'Undefined variable: ') {
+            $message = '$' . substr($message, 20) . ' is undefined';
         }
-        parent::__construct($errstr, $errno, $errfile, $errline);
+        parent::__construct($message, $severity, $filename, $lineno);
     }
 }

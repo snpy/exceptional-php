@@ -12,16 +12,16 @@ class PhpError extends PhpException
     /**
      * PhpError c-tor
      *
-     * @param string $errstr
-     * @param int    $errno
-     * @param int    $errfile
-     * @param string $errline
+     * @param string $message
+     * @param int    $severity
+     * @param int    $filename
+     * @param string $lineno
      */
-    public function __construct($errstr, $errno, $errfile, $errline)
+    public function __construct($message, $severity, $filename, $lineno)
     {
-        if (@substr($errstr, 0, 25) == 'Call to undefined method ') {
-            $errstr = substr($errstr, 25) . ' is undefined';
+        if (@substr($message, 0, 25) == 'Call to undefined method ') {
+            $message = substr($message, 25) . ' is undefined';
         }
-        parent::__construct($errstr, $errno, $errfile, $errline);
+        parent::__construct($message, $severity, $filename, $lineno);
     }
 }

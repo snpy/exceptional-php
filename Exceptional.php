@@ -277,14 +277,14 @@ class Exceptional
     /**
      * Create exception based on error
      *
-     * @param int    $errno
-     * @param string $errstr
-     * @param string $errfile
-     * @param int    $errline
+     * @param string $message
+     * @param int    $severity
+     * @param string $filename
+     * @param int    $lineno
      *
      * @return PhpException
      */
-    private static function errorToException($errno, $errstr, $errfile, $errline)
+    private static function errorToException($message, $severity, $filename, $lineno)
     {
         $map = array(
             E_NOTICE          => 'PhpNotice',
@@ -296,20 +296,22 @@ class Exceptional
             E_STRICT          => 'PhpStrict',
             E_PARSE           => 'PhpParse',
         );
-        $class = '\OBV\Component\Exceptional\Exception\\' . (isset($map[$errno]) ? $map[$errno] : 'PhpError');
+        $class = '\OBV\Component\Exceptional\Exception\\' . (isset($map[$severity]) ? $map[$severity] : 'PhpError');
 
-        return new $class($errno, $errstr, $errfile, $errline);
+        return new $class($message, $severity, $filename, $lineno);
     }
 
-    private static function handleError($errno, $errstr, $errfile, $errline)
+    public static function handleError($message, $severity, $filename, $lineno)
     {
-        if (!(error_reporting() & $errno)) {
+        if (!(error_reporting() & $message)) {
             return;
         }
 
-        static::handleException(static::errorToException($errno, $errstr, $errfile, $errline), false);
+        static::handleException(static::errorToException($message, $severity, $filename, $lineno), false);
 
-        self::$previousErrorHandler && call_user_func(self::$previousErrorHandler, $errno, $errstr, $errfile, $errline);
+        if (self::$previousErrorHandler) {
+            call_user_func(self::$previousErrorHandler, $message, $severity, $filename, $lineno);
+        }
     }
 
     private static function handleException($exception, $callPrevious = true)

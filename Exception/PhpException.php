@@ -14,13 +14,13 @@ class PhpException extends ErrorException
     /**
      * PhpException c-tor
      *
-     * @param string $errstr
-     * @param int    $errno
-     * @param int    $errfile
-     * @param string $errline
+     * @param string $message
+     * @param int    $severity
+     * @param int    $filename
+     * @param string $lineno
      */
-    public function __construct($errstr, $errno, $errfile, $errline)
+    public function __construct($message, $severity, $filename, $lineno)
     {
-        parent::__construct($errstr, 0, $errno, $errfile, $errline);
+        parent::__construct($message, 0, $severity, $filename, $lineno);
     }
 }
