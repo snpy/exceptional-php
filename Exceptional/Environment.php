@@ -2,10 +2,21 @@
 
 namespace OBV\Exceptional;
 
+/**
+ * Class Environment
+ *
+ * @package OBV\Exceptional
+ */
 class Environment
 {
+    /** @var array */
     private static $environment;
 
+    /**
+     * Get environment array
+     *
+     * @return array
+     */
     public static function toArray()
     {
         if (!self::$environment) {
@@ -60,6 +71,11 @@ class Environment
         return self::$environment;
     }
 
+    /**
+     * Get username
+     *
+     * @return string
+     */
     private static function getUsername()
     {
         $vars = array('LOGNAME', 'USER', 'USERNAME', 'APACHE_RUN_USER');
@@ -72,6 +88,11 @@ class Environment
         return 'UNKNOWN';
     }
 
+    /**
+     * Get root directory
+     *
+     * @return string
+     */
     private static function getRootDir()
     {
         if (isset($_SERVER['PWD'])) {

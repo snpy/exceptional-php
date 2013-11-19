@@ -16,6 +16,8 @@ namespace OBV\Exceptional;
 class Encoder
 {
     /**
+     * Encode URL and data into one string
+     *
      * @param string $url
      * @param string $compressedData
      *
@@ -27,6 +29,8 @@ class Encoder
     }
 
     /**
+     * Decode string into array
+     *
      * @param string $data
      *
      * @return array Array with $url and $compressedData values.

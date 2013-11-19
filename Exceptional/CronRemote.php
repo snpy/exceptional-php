@@ -2,8 +2,18 @@
 
 namespace OBV\Exceptional;
 
+/**
+ * Class CronRemote
+ *
+ * @package OBV\Exceptional
+ */
 class CronRemote
 {
+    /**
+     * Process exceptional log
+     *
+     * @return bool
+     */
     public static function sendExceptions()
     {
         foreach (Logger::getLogFiles() as $filePath) {

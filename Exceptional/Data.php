@@ -5,12 +5,27 @@ namespace OBV\Exceptional;
 use Exception;
 use OBV\Exceptional\Exception\Http404Error;
 
+/**
+ * Class Data
+ *
+ * @package OBV\Exceptional
+ */
 class Data
 {
+    /** @var Exception */
     private $exception;
+
+    /** @var array */
     private $data;
+
+    /** @var array */
     private $backtrace = array();
 
+    /**
+     * Data c-tor
+     *
+     * @param Exception $exception
+     */
     public function __construct(Exception $exception)
     {
         $this->exception = $exception;
@@ -87,6 +102,11 @@ class Data
         $this->data = $data;
     }
 
+    /**
+     * Get headers
+     *
+     * @return array
+     */
     private function getAllHeaders()
     {
         if (function_exists('getallheaders')) {
@@ -104,21 +124,44 @@ class Data
         return $headers;
     }
 
+    /**
+     * Create unique hash
+     *
+     * @return string
+     */
     public function uniquenessHash()
     {
         return md5(implode('', $this->backtrace));
     }
 
+    /**
+     * Create JSON data
+     *
+     * @return string
+     */
     public function toJson()
     {
         return json_encode($this->data);
     }
 
+    /**
+     * Get data
+     *
+     * @return array
+     */
     public function getData()
     {
         return $this->data;
     }
 
+    /**
+     * Fix data set
+     *
+     * @param array $dataSet
+     * @param array $keys
+     *
+     * @return array
+     */
     private function fillKeys(array $dataSet, array $keys)
     {
         foreach ($keys as $key) {
@@ -130,7 +173,15 @@ class Data
         return $dataSet;
     }
 
-    private function filterParams($parameters, $term)
+    /**
+     * Filter data set
+     *
+     * @param array  $parameters
+     * @param string $term
+     *
+     * @return array
+     */
+    private function filterParams(array $parameters, $term)
     {
         foreach ($parameters as $key => $value) {
             if (preg_match('/' . $term. '/i', $key)) {

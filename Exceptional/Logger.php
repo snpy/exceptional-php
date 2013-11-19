@@ -15,6 +15,11 @@ namespace OBV\Exceptional;
  */
 class Logger
 {
+    /**
+     * Log compressed data
+     *
+     * @param string $data
+     */
     public static function log($data)
     {
         if ($directory = Exceptional::getLogDirectory()) {
@@ -22,6 +27,11 @@ class Logger
         }
     }
 
+    /**
+     * Find all postponed log reports
+     *
+     * @return array
+     */
     public static function getLogFiles()
     {
         return ($directory = Exceptional::getLogDirectory()) ? glob($directory . '/eio-*') : array();

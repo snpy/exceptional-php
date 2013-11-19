@@ -2,9 +2,19 @@
 
 namespace OBV\Exceptional;
 
+/**
+ * Class Remote
+ *
+ * @package OBV\Exceptional
+ */
 class Remote
 {
-    public static function sendException($exception)
+    /**
+     * Try to send Exceptional report
+     *
+     * @param Data $exception
+     */
+    public static function sendException(Data $exception)
     {
         list($url, $data) = static::preparePostData($exception);
 
@@ -15,6 +25,13 @@ class Remote
         error_reporting($level);
     }
 
+    /**
+     * Prepare data for Exceptional service
+     *
+     * @param Data $exception
+     *
+     * @return array
+     */
     private static function preparePostData(Data $exception)
     {
         $hash       = $exception->uniquenessHash();
@@ -26,11 +43,25 @@ class Remote
         return array($url, $compressed);
     }
 
+    /**
+     * Postpone remote call
+     *
+     * @param string $url
+     * @param string $data
+     */
     private static function postponeRemoteCall($url, $data)
     {
         Logger::log(Encoder::encode($url, $data));
     }
 
+    /**
+     * Push report to Exceptional service
+     *
+     * @param string $path
+     * @param string $postData
+     *
+     * @return bool
+     */
     public static function callRemote($path, $postData)
     {
         if (!$socket = static::openSocket($protocol)) {
@@ -51,6 +82,13 @@ class Remote
         return true;
     }
 
+    /**
+     * Open remote socket
+     *
+     * @param resource|null $protocol
+     *
+     * @return null|resource
+     */
     private static function openSocket(&$protocol = null)
     {
         $secure = Exceptional::getUseSsl();
@@ -73,6 +111,14 @@ class Remote
         return null;
     }
 
+    /**
+     * Prepare request
+     *
+     * @param string $url
+     * @param string $postData
+     *
+     * @return string
+     */
     private static function createRequest($url, $postData)
     {
         $eol = "\r\n";
