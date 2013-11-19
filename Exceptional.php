@@ -85,9 +85,9 @@ class Exceptional
         self::$apiKey = empty($apiKey) ? null : $apiKey;
         self::$useSsl = $useSsl;
 
-        self::$previousExceptionHandler = set_exception_handler(array('Exceptional', 'handleException'));
-        self::$previousErrorHandler = set_error_handler(array('Exceptional', 'handleError'));
-        register_shutdown_function(array('Exceptional', 'shutdown'));
+        self::$previousExceptionHandler = set_exception_handler(array(__CLASS__, 'handleException'));
+        self::$previousErrorHandler = set_error_handler(array(__CLASS__, 'handleError'));
+        register_shutdown_function(array(__CLASS__, 'shutdown'));
 
         self::$registered = true;
 
