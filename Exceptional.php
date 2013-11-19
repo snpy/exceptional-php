@@ -301,7 +301,7 @@ class Exceptional
         return new $class($message, $severity, $filename, $lineno);
     }
 
-    public static function handleError($message, $severity, $filename, $lineno)
+    public static function handleError($severity, $message, $filename, $lineno)
     {
         if (!(error_reporting() & $severity)) {
             return;
@@ -310,7 +310,7 @@ class Exceptional
         static::handleException(static::errorToException($message, $severity, $filename, $lineno), false);
 
         if (self::$previousErrorHandler) {
-            call_user_func(self::$previousErrorHandler, $message, $severity, $filename, $lineno);
+            call_user_func(self::$previousErrorHandler, $severity, $message, $filename, $lineno);
         }
     }
 
