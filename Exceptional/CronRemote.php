@@ -16,8 +16,10 @@ class CronRemote
             unset($report);
 
             if (array_filter($reports) || !unlink($filePath)) {
-                break;
+                return false;
             }
         }
+
+        return true;
     }
 }
