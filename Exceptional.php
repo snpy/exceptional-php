@@ -314,7 +314,7 @@ class Exceptional
         }
     }
 
-    private static function handleException($exception, $callPrevious = true)
+    public static function handleException($exception, $callPrevious = true)
     {
         self::$exceptions[] = $exception;
 
