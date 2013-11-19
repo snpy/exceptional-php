@@ -32,7 +32,7 @@ class Exceptional
 
     private static $registered = false;
 
-    final public static function setup($apiKey, $useSsl = false)
+    final public static function setup($apiKey, $useSsl = false, $logDirectory = null)
     {
         if (self::$registered) {
             if ($apiKey !== self::$apiKey || $useSsl !== self::$useSsl) {
@@ -50,6 +50,8 @@ class Exceptional
         register_shutdown_function(array('Exceptional', 'shutdown'));
 
         self::$registered = true;
+
+        $logDirectory && static::setLogDirectory($logDirectory);
     }
 
     public static function getApiKey()
