@@ -303,7 +303,7 @@ class Exceptional
 
     public static function handleError($message, $severity, $filename, $lineno)
     {
-        if (!(error_reporting() & $message)) {
+        if (!(error_reporting() & $severity)) {
             return;
         }
 
