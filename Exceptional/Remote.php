@@ -53,18 +53,18 @@ class Remote
 
     private static function openSocket(&$protocol = null)
     {
-        $host = Exceptional::getProxyHost() ? : Exceptional::getHost();
-        $port = Exceptional::getProxyPort() ? : (Exceptional::getUseSsl() ? 443 : 80);
+        $secure = Exceptional::getUseSsl();
+        $host   = Exceptional::getProxyHost() ? : Exceptional::getHost();
 
-        if (Exceptional::getUseSsl() === true) {
-            $socket   = fsockopen('ssl://' . $host, $port, $errorNumber, $errorString, 4);
-            $protocol = 'https';
-        } else {
-            $socket   = fsockopen($host, $port, $errorNumber, $errorString, 2);
-            $protocol = 'http';
-        }
+        $secure && ($host = 'ssl://' . $host);
 
+        $port    = Exceptional::getProxyPort() ? : ($secure ? 443 : 80);
+        $timeout = $secure ? 4 : 2;
+
+        $socket = fsockopen($host, $port, $errorNumber, $errorString, $timeout);
         if ($socket) {
+            $protocol = $secure ? 'https' : 'http';
+
             return $socket;
         }
 
