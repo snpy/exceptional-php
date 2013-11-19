@@ -26,6 +26,25 @@ You can turn on SSL by setting the second parameter to `true`.
 Exceptional::setup($apiKey, true);
 ```
 
+Additionally you can enable logging failed reports by passing path to folder as third parameter.
+
+```php
+Exceptional::setup($apiKey, true, '/tmp/eio-logs');
+```
+
+## Resending logged reports
+
+```php
+require __DIR__ . '/../vendor/autoload.php';
+
+use OBV\Component\Exceptional\Exceptional;
+use OBV\Component\Exceptional\CronRemote;
+
+Exceptional::setup($apiKey, true, '/tmp/eio-logs');
+
+CronRemote::sendExceptions();
+```
+
 ## Filtering sensitive data
 
 You can blacklist sensitive fields from being submitted to Exceptional:
