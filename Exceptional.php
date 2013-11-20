@@ -241,7 +241,7 @@ class Exceptional
      */
     public static function setLogDirectory($logDirectory)
     {
-        static::$logDirectory = ltrim($logDirectory, '/\\');
+        static::$logDirectory = rtrim($logDirectory, '/\\');
     }
 
     /**
